@@ -1,5 +1,9 @@
 # 🇮🇳 AwaazSetu – Voice Bridge to Services
 
+<p style="color:red; font-weight:bold; font-size:16px;">
+⚠️ IMPORTANT: For voice recognition to work correctly, please open the demo ONLY in Google Chrome and allow microphone access.
+</p>
+
 ## 🔴 LIVE DEMO (Working)
 
 **🔗 https://awaaz-setu.onrender.com/**
