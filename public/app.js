@@ -5,7 +5,6 @@ let currentLanguage = 'en';
 let currentService = 'auto';
 let recognition;
 let isListening = false;
-let currentUtterance = null;
 let paused = false;
 
 /*********************************
@@ -68,20 +67,20 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     };
 
     recognition.onend = () => {
-        stopListening();
+        isListening = false;
+        document.querySelector('.mic-circle').style.background = 'var(--primary)';
+        document.getElementById('mic-label').textContent =
+            translations[currentLanguage].micLabel;
+
         if (paused) return;
         const text = document.getElementById('user-input').value.trim();
         if (text) submitQuery();
     };
 
-    recognition.onerror = () => stopListening();
-}
-
-function stopListening() {
-    isListening = false;
-    document.querySelector('.mic-circle').style.background = 'var(--primary)';
-    document.getElementById('mic-label').textContent =
-        translations[currentLanguage].micLabel;
+    recognition.onerror = () => {
+        isListening = false;
+        document.querySelector('.mic-circle').style.background = 'var(--primary)';
+    };
 }
 
 /*********************************
@@ -122,11 +121,26 @@ function updateLanguage() {
 }
 
 /*********************************
+ LANGUAGE BUTTONS
+**********************************/
+document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        paused = false;
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentLanguage = btn.dataset.lang;
+        updateLanguage();
+    });
+});
+
+/*********************************
  MIC BUTTON
 **********************************/
 document.getElementById('mic-button').addEventListener('click', () => {
-    if (paused) return;
     if (!recognition) return alert('Please use Chrome for voice input.');
+
+    paused = false; // 🔥 IMPORTANT FIX
+
     recognition.lang = currentLanguage === 'hi' ? 'hi-IN' : 'en-IN';
     isListening ? recognition.stop() : recognition.start();
 });
@@ -166,19 +180,23 @@ async function submitQuery() {
 }
 
 /*********************************
- FORCE STOP (PAUSE)
+ FORCE STOP (PAUSE BUTTON)
 **********************************/
 function forceStopAll() {
     paused = true;
+
     if (recognition && isListening) recognition.stop();
     if ('speechSynthesis' in window) speechSynthesis.cancel();
+
     document.getElementById('loading').style.display = 'none';
     document.getElementById('mic-label').textContent =
         translations[currentLanguage].micLabel;
 }
 
+document.getElementById('pause-btn').addEventListener('click', forceStopAll);
+
 /*********************************
- PROMPTS
+ PROMPTS (30)
 **********************************/
 const promptPool = [
     "नमस्ते","Hello","Emergency number","Police number","Ambulance number",
@@ -197,7 +215,7 @@ function loadRandomPrompts() {
     document.querySelectorAll('.prompt-item').forEach((el, i) => {
         el.textContent = shuffled[i];
         el.onclick = () => {
-            if (paused) return;
+            paused = false;
             document.getElementById('user-input').value = el.textContent;
             currentLanguage = /[\u0900-\u097F]/.test(el.textContent) ? 'hi' : 'en';
             updateLanguage();
@@ -207,48 +225,20 @@ function loadRandomPrompts() {
 }
 
 /*********************************
- INIT — FIXES ALL BUTTONS
+ ASK ANOTHER QUESTION
+**********************************/
+document.getElementById('new-query-btn').addEventListener('click', () => {
+    paused = false;
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    document.getElementById('response-section').style.display = 'none';
+    document.getElementById('user-input').value = '';
+});
+
+/*********************************
+ INIT
 **********************************/
 window.addEventListener('load', () => {
-
     paused = false;
     updateLanguage();
     loadRandomPrompts();
-
-    // LANGUAGE BUTTONS
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.lang-btn')
-                .forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentLanguage = btn.dataset.lang;
-            updateLanguage();
-        });
-    });
-
-    // REPEAT BUTTON
-    const speakerBtn = document.getElementById('speaker-btn');
-    if (speakerBtn) {
-        speakerBtn.addEventListener('click', () => {
-            const text = document.getElementById('response-text').textContent;
-            if (text) speakText(text, currentLanguage);
-        });
-    }
-
-    // ASK ANOTHER QUESTION
-    const newQueryBtn = document.getElementById('new-query-btn');
-    if (newQueryBtn) {
-        newQueryBtn.addEventListener('click', () => {
-            if ('speechSynthesis' in window) speechSynthesis.cancel();
-            document.getElementById('response-section').style.display = 'none';
-            document.getElementById('user-input').value = '';
-            paused = false;
-        });
-    }
-
-    // PAUSE BUTTON (SAFE)
-    const pauseBtn = document.getElementById('pause-btn');
-    if (pauseBtn) {
-        pauseBtn.addEventListener('click', forceStopAll);
-    }
 });
