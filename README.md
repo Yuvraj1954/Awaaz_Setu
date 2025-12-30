@@ -10,13 +10,6 @@ Please allow microphone access when prompted.
 
 ---
 
-## ⚠️ Disclaimer
-
-This application is a **rule-based voice assistant prototype** built for reliability and low-bandwidth environments.  
-Only the commands listed below are officially supported to ensure **accurate, safe, and consistent responses** during usage and demonstrations.
-
----
-
 ## 🎙️ Supported Voice & Text Questions
 
 AwaazSetu currently supports the following **exact questions and voice commands**.  
@@ -85,6 +78,13 @@ You can either **speak** or **click** these prompts.
 > If a question is not recognized, the app safely guides the user to supported services.
 
 ---
+## ⚠️ Disclaimer
+
+This application is a **rule-based voice assistant prototype** built for reliability and low-bandwidth environments.  
+Only the commands listed below are officially supported to ensure **accurate, safe, and consistent responses** during usage and demonstrations.
+
+---
+
 ## 💡 Why Limited Commands?
 
 AwaazSetu intentionally supports a **curated set of essential public service queries** instead of open-ended AI responses.  
