@@ -121,8 +121,8 @@ function speakText(text, language) {
     // Set language based on current selection
     utterance.lang = language === 'hi' ? 'hi-IN' : 'en-IN';
     
-    // Set natural speech rate (slightly slower for clarity)
-    utterance.rate = 0.9;
+    // Set faster speech rate for better user experience
+    utterance.rate = 1.2;
     utterance.pitch = 1;
     utterance.volume = 1;
     
