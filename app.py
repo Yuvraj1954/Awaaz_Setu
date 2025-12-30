@@ -146,92 +146,121 @@ SMART_RESPONSES = {
 }
 
 # ---------------- INTENT DETECTION ----------------
-
 def detect_intent(text, service, language):
-    t = text.lower()
+    t = text.lower().strip()
 
-    # -------- GREETING --------
-    if any(x in t for x in ["hi", "hello", "hey", "namaste", "नमस्ते"]):
+    # ---------- GREETING ----------
+    if any(x in t for x in [
+        "hi", "hello", "hey", "namaste", "नमस्ते", "नमस्कार"
+    ]):
         return "greeting"
 
-    # -------- HELP --------
-    if "help" in t or "what can you do" in t or "मदद" in t:
-        return "help"
-
-    # -------- EMERGENCY --------
-    if "emergency" in t or "आपात" in t:
+    # ---------- EMERGENCY CORE ----------
+    if any(x in t for x in [
+        "emergency number", "emergency numbers", "आपात", "आपातकाल"
+    ]):
         return "emergency_numbers"
 
-    if "police" in t or "112" in t:
+    if any(x in t for x in ["police number", "police", "112"]):
         return "police_number"
 
-    if "ambulance" in t or "108" in t:
+    if any(x in t for x in ["ambulance", "108"]):
         return "ambulance_number"
 
-    if "hospital near" in t or "government hospital" in t or "अस्पताल" in t:
+    if any(x in t for x in [
+        "hospital near me", "nearest hospital", "government hospital", "अस्पताल"
+    ]):
         return "emergency_guidance"
 
-    # -------- WOMEN --------
-    if "women helpline" in t or "महिला हेल्पलाइन" in t or "181" in t:
+    # ---------- WOMEN ----------
+    if any(x in t for x in [
+        "women helpline", "महिला हेल्पलाइन", "181"
+    ]):
         return "women_helpline"
 
-    if "pregnancy" in t or "pregnant" in t or "गर्भ" in t:
+    if any(x in t for x in [
+        "pregnancy help", "pregnancy", "pregnant", "गर्भ", "गर्भावस्था"
+    ]):
         return "pregnancy"
 
-    if "maternity" in t or "मातृत्व" in t:
-        return "maternity_benefit"
-
-    # -------- CHILD --------
-    if "child helpline" in t or "1098" in t or "चाइल्ड हेल्पलाइन" in t:
+    # ---------- CHILD ----------
+    if any(x in t for x in [
+        "child helpline", "चाइल्ड हेल्पलाइन", "1098"
+    ]):
         return "child_helpline"
 
-    if ("child" in t or "बच्चा" in t) and ("vaccine" in t or "vaccination" in t or "टीका" in t):
+    if any(x in t for x in [
+        "child vaccination", "baby vaccination", "बच्चों का टीकाकरण"
+    ]):
         return "child_vaccination"
 
-    if "child" in t or "बच्चा" in t:
+    if any(x in t for x in [
+        "vaccination schedule", "vaccination", "vaccine", "टीकाकरण", "टीका"
+    ]):
+        return "vaccination"
+
+    if any(x in t for x in [
+        "child health", "child care", "बच्चा", "शिशु"
+    ]):
         return "child_health"
 
-    # -------- HEALTH --------
-    if "fever" in t or "बुखार" in t:
+    # ---------- HEALTH ----------
+    if any(x in t for x in ["fever", "बुखार"]):
         return "fever"
 
-    if "cough" in t or "cold" in t or "खांसी" in t:
+    if any(x in t for x in ["cough", "cold", "खांसी", "जुकाम"]):
         return "cough_cold"
 
-    if "headache" in t or "सिर दर्द" in t:
+    if any(x in t for x in ["headache", "सिर दर्द"]):
         return "headache"
 
-    if "stomach" in t or "पेट" in t:
+    if any(x in t for x in ["stomach pain", "पेट दर्द", "पेट"]):
         return "stomach_pain"
 
-    # -------- GOVERNMENT SCHEMES --------
-    if "ration" in t or "राशन" in t:
-        return "ration_card"
-
-    if "ayushman" in t or "आयुष्मान" in t or "health card" in t:
+    # ---------- GOVERNMENT SCHEMES ----------
+    if any(x in t for x in [
+        "free treatment scheme", "free treatment", "health card"
+    ]):
         return "ayushman_bharat"
 
-    if "pension" in t or "पेंशन" in t or "senior citizen" in t:
+    if any(x in t for x in ["ayushman", "आयुष्मान"]):
+        return "ayushman_bharat"
+
+    if any(x in t for x in [
+        "old age pension", "pension", "senior citizen"
+    ]):
         return "pension"
 
-    if "pm awas" in t or "awas yojana" in t or "आवास योजना" in t:
+    if any(x in t for x in [
+        "pm awas", "awas yojana", "housing scheme", "आवास"
+    ]):
         return "housing"
 
-    # -------- DOCUMENTS --------
-    if "aadhar" in t or "aadhaar" in t or "आधार" in t:
-        return "aadhar"
+    # ---------- DOCUMENTS ----------
+    if any(x in t for x in ["ration card", "राशन"]):
+        return "ration_card"
 
-    if "voter" in t or "मतदाता" in t:
-        return "voter_id"
-
-    if "income" in t or "आय" in t:
+    if any(x in t for x in ["income certificate", "आय प्रमाण"]):
         return "income_certificate"
 
-    if "birth" in t or "जन्म" in t:
+    if any(x in t for x in ["birth certificate", "जन्म प्रमाण"]):
         return "birth_certificate"
 
-    # -------- DEFAULT (SAFE) --------
+    if any(x in t for x in ["aadhar", "aadhaar", "आधार"]):
+        return "aadhar"
+
+    if any(x in t for x in ["voter id", "voter", "मतदाता"]):
+        return "voter_id"
+
+    # ---------- HELP ----------
+    if any(x in t for x in [
+        "help", "what can you do", "मदद"
+    ]):
+        return "help"
+
+    # ---------- SAFE DEFAULT ----------
     return "default"
+
 
 # ---------------- API ----------------
 
