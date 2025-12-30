@@ -387,9 +387,52 @@ textarea:focus {
 .response-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 0.5rem;
     margin-bottom: 1rem;
     color: var(--primary);
+}
+
+.response-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.speaker-btn {
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.speaker-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.1);
+}
+
+.speaker-btn.speaking {
+    background: var(--primary);
+    color: white;
+    animation: pulse-speaker 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-speaker {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
 }
 
 .response-body {
