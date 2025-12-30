@@ -138,7 +138,7 @@ SMART_RESPONSES = {
         "hi": "आप नजदीकी सरकारी अस्पताल या PHC जा सकते हैं।"
     },
 
-    # -------- DEFAULT (SAFE) --------
+    # -------- DEFAULT --------
     "default": {
         "en": "Please ask about a specific service like certificate, scheme, hospital, pension or health issue.",
         "hi": "कृपया किसी विशेष सेवा, योजना या स्वास्थ्य समस्या के बारे में पूछें।"
@@ -149,135 +149,76 @@ SMART_RESPONSES = {
 def detect_intent(text, service, language):
     t = text.lower().strip()
 
-    # ---------- GREETING ----------
-    if any(x in t for x in [
-        "hi", "hello", "hey", "namaste", "नमस्ते", "नमस्कार"
-    ]):
+    if any(x in t for x in ["hi", "hello", "namaste", "नमस्ते"]):
         return "greeting"
 
-    # ---------- EMERGENCY CORE ----------
-    if any(x in t for x in [
-        "emergency number", "emergency numbers", "आपात", "आपातकाल"
-    ]):
+    if any(x in t for x in ["emergency number", "आपात"]):
         return "emergency_numbers"
 
-    if any(x in t for x in ["police number", "police", "112"]):
-        return "police_number"
+    if any(x in t for x in ["police", "112"]):
+        return "emergency_numbers"
 
     if any(x in t for x in ["ambulance", "108"]):
-        return "ambulance_number"
-
-    # ✅ HOSPITAL NEAR ME / GOVT HOSPITAL
-    if any(x in t for x in [
-        "hospital near me", "nearest hospital",
-        "government hospital", "govt hospital",
-        "अस्पताल"
-    ]):
         return "emergency_guidance"
 
-    # ---------- WOMEN ----------
-    if any(x in t for x in [
-        "women helpline", "महिला हेल्पलाइन", "181"
-    ]):
+    if any(x in t for x in ["hospital near me", "government hospital", "अस्पताल"]):
+        return "hospital_near_me"
+
+    if any(x in t for x in ["women helpline", "181"]):
         return "women_helpline"
 
-    if any(x in t for x in [
-        "pregnancy help", "pregnancy", "pregnant",
-        "गर्भ", "गर्भावस्था"
-    ]):
+    if any(x in t for x in ["pregnancy", "गर्भ"]):
         return "pregnancy"
 
-    # ---------- CHILD (ORDER MATTERS) ----------
-    # ✅ CHILD HELPLINE MUST COME FIRST
-    if any(x in t for x in [
-        "child helpline", "चाइल्ड हेल्पलाइन", "1098"
-    ]):
+    if any(x in t for x in ["child helpline", "1098"]):
         return "child_helpline"
 
-    if any(x in t for x in [
-        "child vaccination", "baby vaccination",
-        "बच्चों का टीकाकरण"
-    ]):
+    if any(x in t for x in ["child vaccination", "baby vaccination", "टीकाकरण"]):
         return "child_vaccination"
 
-    if any(x in t for x in [
-        "vaccination schedule", "vaccination",
-        "vaccine", "टीकाकरण", "टीका"
-    ]):
-        return "vaccination"
-
-    if any(x in t for x in [
-        "child health", "child care",
-        "बच्चा", "शिशु"
-    ]):
-        return "child_health"
-
-    # ---------- HEALTH ----------
     if any(x in t for x in ["fever", "बुखार"]):
         return "fever"
 
-    if any(x in t for x in ["cough", "cold", "खांसी", "जुकाम"]):
+    if any(x in t for x in ["cough", "cold", "खांसी"]):
         return "cough_cold"
 
     if any(x in t for x in ["headache", "सिर दर्द"]):
         return "headache"
 
-    if any(x in t for x in ["stomach pain", "पेट दर्द", "पेट"]):
+    if any(x in t for x in ["stomach pain", "पेट"]):
         return "stomach_pain"
 
-    # ---------- GOVERNMENT SCHEMES ----------
-    # ✅ FREE TREATMENT / HEALTH CARD
-    if any(x in t for x in [
-        "free treatment", "free treatment scheme",
-        "health card"
-    ]):
+    if any(x in t for x in ["free treatment", "health card", "ayushman"]):
         return "ayushman_bharat"
 
-    if any(x in t for x in ["ayushman", "आयुष्मान"]):
-        return "ayushman_bharat"
-
-    # ✅ PM AWAS YOJANA
-    if any(x in t for x in [
-        "pm awas", "awas yojana",
-        "housing scheme", "आवास"
-    ]):
+    if any(x in t for x in ["pm awas", "awas yojana", "आवास"]):
         return "housing"
 
-    # ---------- PENSION ----------
-    if any(x in t for x in [
-        "old age pension", "pension",
-        "senior citizen"
-    ]):
+    if any(x in t for x in ["pension", "senior citizen"]):
         return "pension"
 
-    # ---------- DOCUMENTS ----------
     if any(x in t for x in ["ration card", "राशन"]):
         return "ration_card"
 
-    if any(x in t for x in ["income certificate", "आय प्रमाण"]):
+    if any(x in t for x in ["income certificate", "आय"]):
         return "income_certificate"
 
-    if any(x in t for x in ["birth certificate", "जन्म प्रमाण"]):
+    if any(x in t for x in ["birth certificate", "जन्म"]):
         return "birth_certificate"
 
-    if any(x in t for x in ["aadhar", "aadhaar", "आधार"]):
+    if any(x in t for x in ["aadhar", "आधार"]):
         return "aadhar"
 
-    if any(x in t for x in ["voter id", "voter", "मतदाता"]):
+    if any(x in t for x in ["voter", "मतदाता"]):
         return "voter_id"
 
-    # ---------- HELP ----------
-    if any(x in t for x in [
-        "help", "what can you do", "मदद"
-    ]):
+    if any(x in t for x in ["help", "मदद"]):
         return "help"
 
-    # ---------- SAFE DEFAULT ----------
     return "default"
 
 
 # ---------------- API ----------------
-
 @app.route("/api/query", methods=["POST"])
 def process_query():
     data = request.json
@@ -289,8 +230,8 @@ def process_query():
 
     return jsonify({"response": response})
 
-# ---------------- FRONTEND ----------------
 
+# ---------------- FRONTEND ----------------
 @app.route("/")
 def index():
     return send_from_directory(PUBLIC_DIR, "index.html")
