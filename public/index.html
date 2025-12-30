@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AwaazSetu - Voice Bridge</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 id="app-title">AwaazSetu</h1>
+            <p id="app-subtitle">Your Voice Bridge to Services</p>
+        </header>
+
+        <div class="language-selector">
+            <button class="lang-btn active" data-lang="en">English</button>
+            <button class="lang-btn" data-lang="hi">हिंदी</button>
+        </div>
+
+        <div class="service-selector">
+            <button class="service-btn active" data-service="government">
+                <span class="service-icon">🏛️</span>
+                <span id="govt-label">Government Services</span>
+            </button>
+            <button class="service-btn" data-service="healthcare">
+                <span class="service-icon">🏥</span>
+                <span id="health-label">Healthcare</span>
+            </button>
+        </div>
+
+        <div class="input-section">
+            <div class="mic-button" id="mic-button">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                </svg>
+                <p id="mic-label">Tap to Speak</p>
+            </div>
+
+            <div class="text-input-section" id="text-input-section" style="display: none;">
+                <label id="input-label" for="user-input">Type what you want to say:</label>
+                <textarea id="user-input" rows="4" placeholder="Type your question here..."></textarea>
+                <div class="button-group">
+                    <button class="submit-btn" id="submit-btn">Submit</button>
+                    <button class="cancel-btn" id="cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="response-section" id="response-section" style="display: none;">
+            <div class="response-card">
+                <h3 id="response-title">Response:</h3>
+                <p id="response-text"></p>
+                <button class="new-query-btn" id="new-query-btn">Ask Another Question</button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p id="loading-text">Processing...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
