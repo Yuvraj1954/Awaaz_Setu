@@ -2,6 +2,7 @@ let currentLanguage = 'en';
 let currentService = 'government';
 let recognition;
 let isListening = false;
+let currentUtterance = null; // Track current speech for cancellation
 
 const translations = {
     en: {
@@ -101,6 +102,74 @@ function stopListening() {
     document.getElementById('mic-label').textContent = translations[currentLanguage].micLabel;
 }
 
+// Text-to-Speech function using Web Speech API
+function speakText(text, language) {
+    // Cancel any ongoing speech
+    if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+    }
+    
+    // Check if browser supports Speech Synthesis
+    if (!('speechSynthesis' in window)) {
+        console.warn('Speech synthesis not supported in this browser');
+        return;
+    }
+    
+    // Create new utterance
+    const utterance = new SpeechSynthesisUtterance(text);
+    
+    // Set language based on current selection
+    utterance.lang = language === 'hi' ? 'hi-IN' : 'en-IN';
+    
+    // Set natural speech rate (slightly slower for clarity)
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+    
+    // Store current utterance for cancellation
+    currentUtterance = utterance;
+    
+    // Handle speech events
+    utterance.onend = () => {
+        currentUtterance = null;
+        // Update speaker button state if it exists
+        const speakerBtn = document.getElementById('speaker-btn');
+        if (speakerBtn) {
+            speakerBtn.classList.remove('speaking');
+        }
+    };
+    
+    utterance.onerror = (event) => {
+        console.error('Speech synthesis error:', event.error);
+        currentUtterance = null;
+        const speakerBtn = document.getElementById('speaker-btn');
+        if (speakerBtn) {
+            speakerBtn.classList.remove('speaking');
+        }
+    };
+    
+    // Start speaking
+    window.speechSynthesis.speak(utterance);
+    
+    // Update speaker button state if it exists
+    const speakerBtn = document.getElementById('speaker-btn');
+    if (speakerBtn) {
+        speakerBtn.classList.add('speaking');
+    }
+}
+
+// Function to stop current speech
+function stopSpeech() {
+    if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+    }
+    currentUtterance = null;
+    const speakerBtn = document.getElementById('speaker-btn');
+    if (speakerBtn) {
+        speakerBtn.classList.remove('speaking');
+    }
+}
+
 function updateLanguage() {
     const t = translations[currentLanguage];
     document.getElementById('app-title').textContent = t.title;
@@ -164,6 +233,8 @@ document.getElementById('mic-button').addEventListener('click', function() {
 });
 
 document.getElementById('cancel-btn').addEventListener('click', function() {
+    // Stop any ongoing speech when canceling
+    stopSpeech();
     document.getElementById('text-input-section').style.display = 'none';
     document.getElementById('mic-button').style.display = 'flex';
     document.getElementById('user-input').value = '';
@@ -181,11 +252,29 @@ document.getElementById('user-input').addEventListener('keypress', function(e) {
 });
 
 document.getElementById('new-query-btn').addEventListener('click', function() {
+    // Stop any ongoing speech when starting new query
+    stopSpeech();
     document.getElementById('response-section').style.display = 'none';
     document.getElementById('mic-button').style.display = 'flex';
     document.getElementById('text-input-section').style.display = 'none';
     document.getElementById('user-input').value = '';
 });
+
+// Speaker button event listener
+const speakerBtn = document.getElementById('speaker-btn');
+if (speakerBtn) {
+    speakerBtn.addEventListener('click', function() {
+        const responseText = document.getElementById('response-text').textContent;
+        if (responseText) {
+            // If already speaking, stop it; otherwise, speak
+            if (window.speechSynthesis.speaking) {
+                stopSpeech();
+            } else {
+                speakText(responseText, currentLanguage);
+            }
+        }
+    });
+}
 
 async function submitQuery() {
     const text = document.getElementById('user-input').value.trim();
@@ -216,6 +305,9 @@ async function submitQuery() {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('response-text').textContent = data.response;
         document.getElementById('response-section').style.display = 'block';
+        
+        // Automatically speak the response
+        speakText(data.response, currentLanguage);
 
     } catch (error) {
         document.getElementById('loading').style.display = 'none';

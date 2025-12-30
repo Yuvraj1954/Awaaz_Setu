@@ -11,6 +11,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="browser-warning">
+        <div class="warning-text">
+            <span class="warning-icon">⚠️</span>
+            <span class="warning-message">Please use Google Chrome browser for the best experience. Voice features work best on Chrome.</span>
+            <span class="warning-icon">⚠️</span>
+            <span class="warning-message">Please use Google Chrome browser for the best experience. Voice features work best on Chrome.</span>
+        </div>
+    </div>
     <div class="app-wrapper">
         <header class="app-header">
             <div class="logo-area">
@@ -81,8 +89,13 @@
                 <div class="response-section" id="response-section" style="display: none;">
                     <div class="response-content">
                         <div class="response-header">
-                            <i class="fas fa-comment-dots"></i>
-                            <h3 id="response-title">Response</h3>
+                            <div class="response-title-group">
+                                <i class="fas fa-comment-dots"></i>
+                                <h3 id="response-title">Response</h3>
+                            </div>
+                            <button class="speaker-btn" id="speaker-btn" title="Replay audio">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
                         </div>
                         <div class="response-body">
                             <p id="response-text"></p>
