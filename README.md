@@ -1,219 +1,95 @@
-# 🎙️ AwaazSetu  
-### 🌏 *Voice Bridge to Essential Services for Bharat*
+# 🎙️ AwaazSetu & Sarthi  
+### 🌏 *Bridging the Digital Divide for Bharat via Voice & Offline Access*
 
-🚨 **IMPORTANT:**  
-**Voice features work best in Google Chrome.**  
-Please allow microphone access when prompted.
-
-🔗 **LIVE DEMO:**  
-👉 **https://awaaz-setu-2.onrender.com/**
+**AwaazSetu** (Web) and **Sarthi** (Android APK) are voice-first digital assistants designed to make **government services, healthcare guidance, and emergency information** accessible to everyone—regardless of literacy level or internet connectivity.
 
 ---
 
-## 🎙️ Supported Voice & Text Questions
+## 📱 Introducing: Sarthi (Android APK)
+**Sarthi** is the native evolution of AwaazSetu, built specifically for the realities of rural India: **low bandwidth and zero-connectivity zones.**
 
-AwaazSetu currently supports the following **exact questions and voice commands**.  
-You can either **speak** or **click** these prompts.
+### 🌟 Key Android Features (Offline-First)
+- **True Offline Functionality:** Unlike the web version, the Sarthi APK allows users to access the core database of emergency numbers and health guidance without any internet connection.
+- **Intelligent Sync:** Designed for "momentary connectivity." The app queues data and updates itself the second a signal is restored.
+- **Low-Bandwidth Optimization:** Engineered to run smoothly on budget Android devices and 2G networks.
+- **Voice-First UI:** Optimized for high-performance speech recognition on mobile hardware.
+
+---
+
+## 💻 AwaazSetu (Web Platform)
+The web-based gateway for instant access via browser.
+
+🚨 **IMPORTANT:** Voice features work best in **Google Chrome**. Please allow microphone access when prompted.
+
+🔗 **LIVE DEMO:** [https://awaaz-setu-2.onrender.com/](https://awaaz-setu-2.onrender.com/)
+
+---
+
+## 🎙️ Supported Voice & Text Commands
+Both platforms use a **keyword-based intent system** to ensure 100% accuracy and safety.
 
 ### 🔹 Emergency & Safety
-- Emergency number  
-- Emergency numbers in India  
-- Police number  
-- Call police  
-- Ambulance number  
-- Call ambulance  
-- Hospital near me  
-- Government hospital  
-- Women helpline  
-- Call women helpline  
+* **Commands:** "Call Police", "Ambulance number", "Emergency numbers in India", "Women helpline".
+* **Output:** Instant access to verified numbers like **112, 108, 101, 1098**.
 
-### 🔹 Women & Pregnancy
-- Pregnancy help  
-- Pregnancy care  
-- Government pregnancy scheme  
-- Free pregnancy checkup  
+### 🔹 Government Schemes & Documents
+* **Commands:** "Ayushman Bharat", "PM Awas Yojana", "Ration card kaise banaye", "Aadhaar update", "Voter ID apply".
+* **Focus:** Simplifying complex portals into simple spoken instructions.
 
-### 🔹 Health Issues
-- I have fever  
-- Fever treatment  
-- Cold and cough  
-- Headache  
-- Stomach pain   
-- Free treatment scheme  
-
-### 🔹 Government Schemes
-- Ayushman Bharat  
-- What is Ayushman Bharat  
-- Free treatment under Ayushman  
-- Health card  
-- PM Awas Yojana    
-
-### 🔹 Documents & Certificates
-- Ration card  
-- Ration card kaise banaye  
-- Income certificate  
-- Income certificate apply  
-- Birth certificate  
-- Birth certificate apply  
-- Aadhaar card  
-- Aadhaar update  
-- Voter ID  
-- Voter ID apply  
+### 🔹 Healthcare & Pregnancy
+* **Commands:** "I have fever", "Pregnancy care", "Government pregnancy scheme", "Stomach pain", "Free treatment scheme".
 
 ### 🔹 Pension & Senior Citizens
-- Old age pension  
-- Pension scheme  
-- Senior citizen help  
-- Government pension  
-
-### 🔹 General
-- Hello  
-- Hi  
-- Namaste  
-- Help  
-- What can you do  
-
-> 📝 Note:  
-> The system is **keyword-based** and optimized for **low bandwidth environments**.  
-> If a question is not recognized, the app safely guides the user to supported services.
-
----
-## ⚠️ Disclaimer
-
-This application is a **rule-based voice assistant prototype** built for reliability and low-bandwidth environments.  
-Only the commands listed below are officially supported to ensure **accurate, safe, and consistent responses** during usage and demonstrations.
+* **Commands:** "Old age pension", "Pension scheme", "Senior citizen help".
 
 ---
 
-## 💡 Why Limited Commands?
+## 💡 Why Sarthi & AwaazSetu?
 
-AwaazSetu intentionally supports a **curated set of essential public service queries** instead of open-ended AI responses.  
-This approach ensures:
-- High accuracy for healthcare and government information  
-- Reliable performance on low internet bandwidth  
-- No hallucinated or unsafe answers  
-- Better accessibility for rural and first-time users  
+In rural India, millions face **The Connectivity Gap**:
+- ❌ **Low Digital Literacy:** Navigating complex UIs is difficult.
+- ❌ **Language Barriers:** Most portals are English-heavy.
+- ❌ **Unstable Internet:** Web apps fail when the signal drops.
 
----
-## 🌟 Overview
-
-**AwaazSetu** is a **voice-first digital assistant** built to make **government services, healthcare guidance, and emergency information** accessible to everyone — especially **rural and non-tech users**.
-
-Instead of navigating complex websites or typing long queries, users can simply **speak in Hindi or English** and receive **clear, spoken responses**.
-
-> 🗣️ *If you can speak, you can access services.*
+**Our Solution:**
+1.  **Natural Interaction:** Speaking is easier than typing.
+2.  **Language Inclusion:** Supports Hindi and English (Hinglish).
+3.  **Resilience:** Sarthi (APK) stays functional when the internet vanishes.
+4.  **No Hallucinations:** Rule-based responses ensure users get verified, safe information every time.
 
 ---
 
-## ❗ Problem Statement
+## 🧭 How It Works
 
-In rural and semi-urban India, millions of people face challenges such as:
-
-- ❌ Low digital literacy  
-- ❌ English-heavy government portals  
-- ❌ Complex forms and confusing UIs  
-- ❌ Difficulty typing on smartphones  
-
-As a result, **essential schemes and healthcare guidance remain inaccessible** to the people who need them the most.
-
----
-
-## 💡 Why Voice-First for India?
-
-- 🧠 **Natural Interaction** – Speaking is easier than typing or navigating menus  
-- 🌐 **Language Inclusion** – Supports Hindi and English  
-- ⚡ **Low Friction** – No forms, no learning curve  
-- 🤝 **Trust & Familiarity** – Hearing responses in one’s own language builds confidence  
-- 📱 **Mobile-Friendly** – Designed for low-bandwidth environments  
-
----
-
-## 🧭 How AwaazSetu Works
-
-1️⃣ **User Speaks**  
-Tap the microphone and ask a question in Hindi or English.
-
-2️⃣ **Intent Detection**  
-The backend analyzes the spoken or typed query using keyword-based intent detection.
-
-3️⃣ **Knowledge Retrieval**  
-A curated, multilingual **Firebase database** is queried for verified responses.
-
-4️⃣ **Voice Response**  
-The answer is shown on screen **and read aloud** using browser-based text-to-speech.
-
----
-
-## 🎤 What Can You Say? (Voice Commands)
-
-### 👋 Greetings
-- “Hi”
-- “Hello”
-- “Namaste”
-- “नमस्ते”
-- “कैसे हो”
-
----
-
-### 🏛️ Government Services
-- “What is Ayushman Bharat?”
-- “How to apply for ration card?”
-- “राशन कार्ड कैसे बनवाएं?”
-- “पेंशन की जानकारी”
-- “Aadhaar update kaise kare”
-
----
-
-### 🏥 Healthcare Guidance
-- “I have fever”
-- “Cough and cold”
-- “पेट दर्द”
-- “Vaccination information”
-- “गर्भावस्था से जुड़ी जानकारी”
-
----
-
-### 🚨 Emergency & Safety
-- “Emergency number”
-- “Police number”
-- “Ambulance number”
-- “इमरजेंसी नंबर बताओ”
-- “पुलिस का नंबर क्या है”
-
-📞 Provides verified Indian emergency numbers like **112, 108, 101, 1098**.
-
----
-
-### ℹ️ Help & Guidance
-- “Help”
-- “What can you do?”
-- “यह कैसे काम करता है?”
-- “मदद”
+1.  **User Speaks:** Tap the mic and ask a question (e.g., "राशन कार्ड कैसे बनवाएं?").
+2.  **Intent Detection:** The system analyzes the query using local (APK) or cloud (Web) keyword mapping.
+3.  **Knowledge Retrieval:** Sarthi fetches verified data from its **Offline SQLite/Firebase** cache.
+4.  **Voice Response:** The answer is displayed visually **and read aloud** via Text-to-Speech.
 
 ---
 
 ## 🛠️ Tech Stack
 
-### 🔧 Backend
-- **Python Flask**
-- Keyword-based intent detection
-- REST API (`/api/query`)
+### **Mobile (Sarthi APK)**
+- **Java/Kotlin & XML:** Native Android development.
+- **SQLite / Room:** For robust offline data storage.
+- **WorkManager:** For background synchronization when internet returns.
 
-### 🎨 Frontend
-- HTML5, CSS3, Vanilla JavaScript
-- Voice Input: Web Speech API
-- Audio Output: SpeechSynthesis API
-- Mobile-first, low-distraction UI
-
-### 🗄️ Database
-- **Firebase Firestore**
-- Curated multilingual responses
-- Offline / fallback support for demos
+### **Web (AwaazSetu)**
+- **Python Flask:** Backend API.
+- **Web Speech API:** For browser-based voice-to-text.
+- **Firebase Firestore:** Multilingual database.
 
 ---
 
-## 🚀 How to Run Locally
+## 🚀 Installation & Setup
 
-### 1️⃣ Install Dependencies
-```bash
-pip install -r requirements.txt
+### **For Android (Sarthi)**
+1. Download the `Sarthi.apk` from the [Releases](#) section.
+2. Enable "Install from Unknown Sources" in settings.
+3. Open and start speaking—even without Wi-Fi!
+
+### **For Web (Local Development)**
+1. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
