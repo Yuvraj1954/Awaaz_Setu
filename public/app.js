@@ -11,6 +11,7 @@ let paused = false;
  TRANSLATIONS
 **********************************/
 speechSynthesis.onvoiceschanged = () => {};
+
 const translations = {
     en: {
         title: 'AwaazSetu',
@@ -48,7 +49,9 @@ const translations = {
  SPEECH RECOGNITION
 **********************************/
 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
     recognition = new SpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = false;
@@ -85,42 +88,34 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
 }
 
 /*********************************
- TEXT TO SPEECH
+ TEXT TO SPEECH (IMPROVED ENGLISH)
 **********************************/
 function speakText(text, language) {
     if (!('speechSynthesis' in window)) return;
 
     speechSynthesis.cancel();
-
     const utterance = new SpeechSynthesisUtterance(text);
-
     const voices = speechSynthesis.getVoices();
 
     if (language === 'en') {
-        // Prefer high-quality English voices
-        const preferredVoice =
+        const voice =
             voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
             voices.find(v => v.lang === 'en-IN') ||
             voices.find(v => v.lang.startsWith('en'));
 
-        if (preferredVoice) utterance.voice = preferredVoice;
-
+        if (voice) utterance.voice = voice;
         utterance.lang = 'en-IN';
         utterance.rate = 0.9;
         utterance.pitch = 1.1;
     } else {
-        // Hindi already sounds good
-        const hindiVoice = voices.find(v => v.lang === 'hi-IN');
-        if (hindiVoice) utterance.voice = hindiVoice;
-
+        const voice = voices.find(v => v.lang === 'hi-IN');
+        if (voice) utterance.voice = voice;
         utterance.lang = 'hi-IN';
         utterance.rate = 0.95;
-        utterance.pitch = 1.0;
     }
 
     speechSynthesis.speak(utterance);
 }
-
 
 /*********************************
  LANGUAGE UPDATE
@@ -146,15 +141,18 @@ function updateLanguage() {
 }
 
 /*********************************
- LANGUAGE BUTTONS
+ LANGUAGE BUTTONS (FIXED)
 **********************************/
 document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         paused = false;
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.lang-btn').forEach(b =>
+            b.classList.remove('active')
+        );
         btn.classList.add('active');
         currentLanguage = btn.dataset.lang;
         updateLanguage();
+        loadRandomPrompts(); // ✅ KEY FIX
     });
 });
 
@@ -163,9 +161,7 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
 **********************************/
 document.getElementById('mic-button').addEventListener('click', () => {
     if (!recognition) return alert('Please use Chrome for voice input.');
-
-    paused = false; // 🔥 IMPORTANT FIX
-
+    paused = false;
     recognition.lang = currentLanguage === 'hi' ? 'hi-IN' : 'en-IN';
     isListening ? recognition.stop() : recognition.start();
 });
@@ -175,7 +171,6 @@ document.getElementById('mic-button').addEventListener('click', () => {
 **********************************/
 async function submitQuery() {
     if (paused) return;
-
     const text = document.getElementById('user-input').value.trim();
     if (!text) return;
 
@@ -205,43 +200,44 @@ async function submitQuery() {
 }
 
 /*********************************
- FORCE STOP (PAUSE BUTTON)
+ PAUSE BUTTON
 **********************************/
 function forceStopAll() {
     paused = true;
-
     if (recognition && isListening) recognition.stop();
     if ('speechSynthesis' in window) speechSynthesis.cancel();
-
     document.getElementById('loading').style.display = 'none';
-    document.getElementById('mic-label').textContent =
-        translations[currentLanguage].micLabel;
 }
 
 document.getElementById('pause-btn').addEventListener('click', forceStopAll);
 
 /*********************************
- PROMPTS (30)
+ PERMANENT PROMPTS (BILINGUAL)
 **********************************/
 const promptPool = [
     {
-        ui: "PM Awas Yojana",
+        ui_en: "PM Awas Yojana",
+        ui_hi: "पीएम आवास योजना",
         send: "PM Awas Yojana"
     },
     {
-        ui: "Women helpline",
+        ui_en: "Women helpline",
+        ui_hi: "महिला हेल्पलाइन",
         send: "Women helpline"
     },
     {
-        ui: "Emergency number",
+        ui_en: "Emergency number",
+        ui_hi: "आपातकालीन नंबर",
         send: "Emergency number"
     },
     {
-        ui: "राशन कार्ड कैसे बनवाएं",
+        ui_en: "Ration card kaise banaye",
+        ui_hi: "राशन कार्ड कैसे बनवाएं",
         send: "राशन कार्ड कैसे बनवाएं"
     },
     {
-        ui: "Ayushman Bharat",
+        ui_en: "Ayushman Bharat",
+        ui_hi: "आयुष्मान भारत",
         send: "Ayushman Bharat"
     }
 ];
@@ -252,21 +248,18 @@ function loadRandomPrompts() {
     items.forEach((el, i) => {
         if (!promptPool[i]) return;
 
-        el.textContent = promptPool[i].ui;
+        el.textContent =
+            currentLanguage === 'hi'
+                ? promptPool[i].ui_hi
+                : promptPool[i].ui_en;
 
         el.onclick = () => {
-            document.getElementById('user-input').value = promptPool[i].send;
-
-            currentLanguage =
-                /[\u0900-\u097F]/.test(promptPool[i].send) ? 'hi' : 'en';
-
-            updateLanguage();
+            document.getElementById('user-input').value =
+                promptPool[i].send;
             submitQuery();
         };
     });
 }
-
-
 
 /*********************************
  ASK ANOTHER QUESTION
