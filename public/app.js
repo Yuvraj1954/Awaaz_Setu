@@ -1,6 +1,7 @@
 let currentLanguage = 'en';
 let currentService = 'government';
 let recognition;
+let isListening = false;
 
 const translations = {
     en: {
@@ -45,6 +46,7 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     recognition.interimResults = false;
 
     recognition.onstart = () => {
+        isListening = true;
         document.querySelector('.mic-circle').style.background = '#ef4444';
         document.getElementById('mic-label').textContent = translations[currentLanguage].listening;
     };
@@ -52,30 +54,28 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
         document.getElementById('user-input').value = transcript;
-        showTextInput();
+        // Do not switch to text mode automatically anymore, just fill the box
     };
 
     recognition.onerror = (event) => {
         console.error('Speech recognition error:', event.error);
-        resetMicUI();
-        showTextInput(); // Fallback to manual input
+        if (event.error === 'not-allowed') {
+            alert(currentLanguage === 'en' 
+                ? 'Microphone access denied. Please enable it in browser settings.' 
+                : 'माइक्रोफोन एक्सेस अस्वीकार कर दिया गया। कृपया ब्राउज़र सेटिंग्स में इसे सक्षम करें।');
+        }
+        stopListening();
     };
 
     recognition.onend = () => {
-        resetMicUI();
+        stopListening();
     };
 }
 
-function resetMicUI() {
+function stopListening() {
+    isListening = false;
     document.querySelector('.mic-circle').style.background = 'var(--primary)';
     document.getElementById('mic-label').textContent = translations[currentLanguage].micLabel;
-}
-
-function showTextInput() {
-    document.getElementById('mic-button').style.display = 'none';
-    document.getElementById('text-input-section').style.display = 'block';
-    document.getElementById('response-section').style.display = 'none';
-    document.getElementById('user-input').focus();
 }
 
 function updateLanguage() {
@@ -119,10 +119,20 @@ document.querySelectorAll('.service-btn').forEach(btn => {
 
 document.getElementById('mic-button').addEventListener('click', function() {
     if (recognition) {
-        recognition.lang = currentLanguage === 'hi' ? 'hi-IN' : 'en-IN';
-        recognition.start();
+        if (isListening) {
+            recognition.stop();
+        } else {
+            // Hide response if any and focus input area visually (but don't hide mic)
+            document.getElementById('response-section').style.display = 'none';
+            document.getElementById('text-input-section').style.display = 'block';
+            
+            recognition.lang = currentLanguage === 'hi' ? 'hi-IN' : 'en-IN';
+            recognition.start();
+        }
     } else {
-        showTextInput();
+        // Fallback for browsers without speech support
+        document.getElementById('mic-button').style.display = 'none';
+        document.getElementById('text-input-section').style.display = 'block';
     }
 });
 
@@ -146,6 +156,7 @@ document.getElementById('user-input').addEventListener('keypress', function(e) {
 document.getElementById('new-query-btn').addEventListener('click', function() {
     document.getElementById('response-section').style.display = 'none';
     document.getElementById('mic-button').style.display = 'flex';
+    document.getElementById('text-input-section').style.display = 'none';
     document.getElementById('user-input').value = '';
 });
 
@@ -153,7 +164,7 @@ async function submitQuery() {
     const text = document.getElementById('user-input').value.trim();
 
     if (!text) {
-        alert(currentLanguage === 'en' ? 'Please type your question' : 'कृपया अपना सवाल लिखें');
+        alert(currentLanguage === 'en' ? 'Please type or speak your question' : 'कृपया अपना सवाल बोलें या लिखें');
         return;
     }
 
