@@ -1,95 +1,87 @@
-# 🎙️ AwaazSetu & Sarthi  
-### 🌏 *Bridging the Digital Divide for Bharat via Voice & Offline Access*
+# 🎙️ AwaazSetu & Sarthi
+### 🌏 *Empowering Bharat: Bilingual Voice Bridge for Essential Services*
 
-**AwaazSetu** (Web) and **Sarthi** (Android APK) are voice-first digital assistants designed to make **government services, healthcare guidance, and emergency information** accessible to everyone—regardless of literacy level or internet connectivity.
-
----
-
-## 📱 Introducing: Sarthi (Android APK)
-**Sarthi** is the native evolution of AwaazSetu, built specifically for the realities of rural India: **low bandwidth and zero-connectivity zones.**
-
-### 🌟 Key Android Features (Offline-First)
-- **True Offline Functionality:** Unlike the web version, the Sarthi APK allows users to access the core database of emergency numbers and health guidance without any internet connection.
-- **Intelligent Sync:** Designed for "momentary connectivity." The app queues data and updates itself the second a signal is restored.
-- **Low-Bandwidth Optimization:** Engineered to run smoothly on budget Android devices and 2G networks.
-- **Voice-First UI:** Optimized for high-performance speech recognition on mobile hardware.
+**AwaazSetu** (Web) and **Sarthi** (Android) are voice-first digital assistants designed to bridge the digital divide. By converting complex government and healthcare information into simple spoken dialogue, we empower rural and non-tech-savvy users to access their rights—even without a stable internet connection.
 
 ---
 
-## 💻 AwaazSetu (Web Platform)
-The web-based gateway for instant access via browser.
+## 📱 Sarthi: The Offline-First Android Evolution
+**Sarthi** is the native flagship implementation of this project, built to solve the "Connectivity Gap" in rural India.
 
-🚨 **IMPORTANT:** Voice features work best in **Google Chrome**. Please allow microphone access when prompted.
-
-🔗 **LIVE DEMO:** [https://awaaz-setu-2.onrender.com/](https://awaaz-setu-2.onrender.com/)
-
----
-
-## 🎙️ Supported Voice & Text Commands
-Both platforms use a **keyword-based intent system** to ensure 100% accuracy and safety.
-
-### 🔹 Emergency & Safety
-* **Commands:** "Call Police", "Ambulance number", "Emergency numbers in India", "Women helpline".
-* **Output:** Instant access to verified numbers like **112, 108, 101, 1098**.
-
-### 🔹 Government Schemes & Documents
-* **Commands:** "Ayushman Bharat", "PM Awas Yojana", "Ration card kaise banaye", "Aadhaar update", "Voter ID apply".
-* **Focus:** Simplifying complex portals into simple spoken instructions.
-
-### 🔹 Healthcare & Pregnancy
-* **Commands:** "I have fever", "Pregnancy care", "Government pregnancy scheme", "Stomach pain", "Free treatment scheme".
-
-### 🔹 Pension & Senior Citizens
-* **Commands:** "Old age pension", "Pension scheme", "Senior citizen help".
+* **🚀 1,000+ Native Commands:** While web browsers have speech limits, Sarthi uses a native Android engine to support thousands of command variations in Hindi and English.
+* **🔋 True Offline Access:** Core emergency data, health tips, and scheme information are stored locally. No signal? No problem.
+* **🔄 Intelligent Synchronization:** Designed for intermittent connectivity. Sarthi queues user data and automatically syncs with the cloud the moment a network connection is momentarily restored.
+* **⚡ Low-Bandwidth Optimization:** Engineered to run on 2G networks and budget-friendly Android devices.
 
 ---
 
-## 💡 Why Sarthi & AwaazSetu?
+## 💻 AwaazSetu: The Web Gateway
+A lightweight, instant-access platform for users on any device.
 
-In rural India, millions face **The Connectivity Gap**:
-- ❌ **Low Digital Literacy:** Navigating complex UIs is difficult.
-- ❌ **Language Barriers:** Most portals are English-heavy.
-- ❌ **Unstable Internet:** Web apps fail when the signal drops.
+🚨 **Note:** For the best experience, use **Google Chrome** and allow microphone access. Due to browser limitations, the web version supports a curated set of high-priority keywords.
 
-**Our Solution:**
-1.  **Natural Interaction:** Speaking is easier than typing.
-2.  **Language Inclusion:** Supports Hindi and English (Hinglish).
-3.  **Resilience:** Sarthi (APK) stays functional when the internet vanishes.
-4.  **No Hallucinations:** Rule-based responses ensure users get verified, safe information every time.
+🔗 **LIVE WEB DEMO:** [https://awaaz-setu-2.onrender.com/](https://awaaz-setu-2.onrender.com/)
 
 ---
 
-## 🧭 How It Works
+## 🎙️ Bilingual Voice Support (Hindi & English)
+Both platforms use a **keyword-based intent system** to ensure 100% accuracy and safety, eliminating "AI hallucinations."
 
-1.  **User Speaks:** Tap the mic and ask a question (e.g., "राशन कार्ड कैसे बनवाएं?").
-2.  **Intent Detection:** The system analyzes the query using local (APK) or cloud (Web) keyword mapping.
-3.  **Knowledge Retrieval:** Sarthi fetches verified data from its **Offline SQLite/Firebase** cache.
-4.  **Voice Response:** The answer is displayed visually **and read aloud** via Text-to-Speech.
+| Category | English Commands | Hindi Commands |
+| :--- | :--- | :--- |
+| **🚨 Emergency** | Call Police, Ambulance, Emergency No. | पुलिस नंबर, एम्बुलेंस, इमरजेंसी सहायता |
+| **🤰 Pregnancy** | Pregnancy care, Govt schemes | गर्भावस्था मदद, सरकारी प्रेगनेंसी स्कीम |
+| **🏥 Health** | Fever treatment, Ayushman Bharat | बुखार का इलाज, आयुष्मान भारत योजना |
+| **📄 Documents** | Ration card, Aadhaar update, Voter ID | राशन कार्ड, आधार अपडेट, वोटर आईडी |
+| **👵 Pension** | Old age pension, Senior citizen help | बुढ़ापा पेंशन, पेंशन योजना की जानकारी |
+| **👋 General** | Hello, Help, What can you do? | नमस्ते, मदद चाहिए, आप क्या कर सकते हैं? |
+
+---
+
+## 💡 The Problem & Our Solution
+
+### **The Problem**
+Millions in rural India face a "Triple Barrier":
+1.  **Literacy Barrier:** Complex, text-heavy government portals.
+2.  **Language Barrier:** Information primarily in English.
+3.  **Connectivity Barrier:** Unstable or non-existent internet (The "Data-Dark" zones).
+
+### **The Solution**
+* **Voice-First:** If you can speak, you can access services.
+* **Bilingual:** Native support for Hindi, English, and "Hinglish."
+* **Resilient:** **Sarthi** stays functional when the internet vanishes, ensuring "No Signal" never means "No Service."
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### **Mobile (Sarthi APK)**
-- **Java/Kotlin & XML:** Native Android development.
-- **SQLite / Room:** For robust offline data storage.
-- **WorkManager:** For background synchronization when internet returns.
+- **Native Android (Java/Kotlin):** For high-performance on-device processing.
+- **SQLite / Room Database:** For robust offline data persistence.
+- **WorkManager API:** For intelligent background data synchronization.
+- **Android SpeechRecognizer:** High-accuracy local voice processing.
 
 ### **Web (AwaazSetu)**
-- **Python Flask:** Backend API.
-- **Web Speech API:** For browser-based voice-to-text.
-- **Firebase Firestore:** Multilingual database.
+- **Python Flask:** Lightweight backend API.
+- **Web Speech & SpeechSynthesis API:** For browser-based voice interaction.
+- **Firebase Firestore:** Real-time multilingual database.
 
 ---
 
-## 🚀 Installation & Setup
+## 🚀 How to Get Started
 
-### **For Android (Sarthi)**
-1. Download the `Sarthi.apk` from the [Releases](#) section.
-2. Enable "Install from Unknown Sources" in settings.
-3. Open and start speaking—even without Wi-Fi!
+### **1. Install Sarthi (Android)**
+* Download `Sarthi.apk` from the [Releases](#) folder.
+* Enable "Install from Unknown Sources" in your Android settings.
+* Open the app and start speaking—**works 100% offline.**
 
-### **For Web (Local Development)**
-1. **Install Dependencies:**
-   ```bash
-   pip install -r requirements.txt
+### **2. Run AwaazSetu (Web) Locally**
+```bash
+# Clone the repository
+git clone [https://github.com/your-repo/awaazsetu.git](https://github.com/your-repo/awaazsetu.git)
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the server
+python app.py
