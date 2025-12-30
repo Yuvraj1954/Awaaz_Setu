@@ -167,8 +167,11 @@ def detect_intent(text, service, language):
     if any(x in t for x in ["ambulance", "108"]):
         return "ambulance_number"
 
+    # ✅ HOSPITAL NEAR ME / GOVT HOSPITAL
     if any(x in t for x in [
-        "hospital near me", "nearest hospital", "government hospital", "अस्पताल"
+        "hospital near me", "nearest hospital",
+        "government hospital", "govt hospital",
+        "अस्पताल"
     ]):
         return "emergency_guidance"
 
@@ -179,28 +182,33 @@ def detect_intent(text, service, language):
         return "women_helpline"
 
     if any(x in t for x in [
-        "pregnancy help", "pregnancy", "pregnant", "गर्भ", "गर्भावस्था"
+        "pregnancy help", "pregnancy", "pregnant",
+        "गर्भ", "गर्भावस्था"
     ]):
         return "pregnancy"
 
-    # ---------- CHILD ----------
+    # ---------- CHILD (ORDER MATTERS) ----------
+    # ✅ CHILD HELPLINE MUST COME FIRST
     if any(x in t for x in [
         "child helpline", "चाइल्ड हेल्पलाइन", "1098"
     ]):
         return "child_helpline"
 
     if any(x in t for x in [
-        "child vaccination", "baby vaccination", "बच्चों का टीकाकरण"
+        "child vaccination", "baby vaccination",
+        "बच्चों का टीकाकरण"
     ]):
         return "child_vaccination"
 
     if any(x in t for x in [
-        "vaccination schedule", "vaccination", "vaccine", "टीकाकरण", "टीका"
+        "vaccination schedule", "vaccination",
+        "vaccine", "टीकाकरण", "टीका"
     ]):
         return "vaccination"
 
     if any(x in t for x in [
-        "child health", "child care", "बच्चा", "शिशु"
+        "child health", "child care",
+        "बच्चा", "शिशु"
     ]):
         return "child_health"
 
@@ -218,23 +226,29 @@ def detect_intent(text, service, language):
         return "stomach_pain"
 
     # ---------- GOVERNMENT SCHEMES ----------
+    # ✅ FREE TREATMENT / HEALTH CARD
     if any(x in t for x in [
-        "free treatment scheme", "free treatment", "health card"
+        "free treatment", "free treatment scheme",
+        "health card"
     ]):
         return "ayushman_bharat"
 
     if any(x in t for x in ["ayushman", "आयुष्मान"]):
         return "ayushman_bharat"
 
+    # ✅ PM AWAS YOJANA
     if any(x in t for x in [
-        "old age pension", "pension", "senior citizen"
-    ]):
-        return "pension"
-
-    if any(x in t for x in [
-        "pm awas", "awas yojana", "housing scheme", "आवास"
+        "pm awas", "awas yojana",
+        "housing scheme", "आवास"
     ]):
         return "housing"
+
+    # ---------- PENSION ----------
+    if any(x in t for x in [
+        "old age pension", "pension",
+        "senior citizen"
+    ]):
+        return "pension"
 
     # ---------- DOCUMENTS ----------
     if any(x in t for x in ["ration card", "राशन"]):
