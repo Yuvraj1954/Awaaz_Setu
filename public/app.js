@@ -10,6 +10,7 @@ let paused = false;
 /*********************************
  TRANSLATIONS
 **********************************/
+speechSynthesis.onvoiceschanged = () => {};
 const translations = {
     en: {
         title: 'AwaazSetu',
@@ -87,15 +88,39 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
  TEXT TO SPEECH
 **********************************/
 function speakText(text, language) {
-    if (paused) return;
     if (!('speechSynthesis' in window)) return;
 
     speechSynthesis.cancel();
+
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = language === 'hi' ? 'hi-IN' : 'en-IN';
-    utterance.rate = 1.1;
+
+    const voices = speechSynthesis.getVoices();
+
+    if (language === 'en') {
+        // Prefer high-quality English voices
+        const preferredVoice =
+            voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
+            voices.find(v => v.lang === 'en-IN') ||
+            voices.find(v => v.lang.startsWith('en'));
+
+        if (preferredVoice) utterance.voice = preferredVoice;
+
+        utterance.lang = 'en-IN';
+        utterance.rate = 0.95;
+        utterance.pitch = 1.0;
+    } else {
+        // Hindi already sounds good
+        const hindiVoice = voices.find(v => v.lang === 'hi-IN');
+        if (hindiVoice) utterance.voice = hindiVoice;
+
+        utterance.lang = 'hi-IN';
+        utterance.rate = 0.95;
+        utterance.pitch = 1.0;
+    }
+
     speechSynthesis.speak(utterance);
 }
+
 
 /*********************************
  LANGUAGE UPDATE
