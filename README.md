@@ -23,7 +23,7 @@ AwaazSetu acts as an intelligent bridge:
 ## Tech Stack
 - **Backend**: Python Flask
 - **Frontend**: Vanilla JavaScript, HTML5, CSS3 (Inter font, Font Awesome)
-- **Database**: PostgreSQL (with SQLAlchemy) for persistent service information
+- **Database**: Firebase Firestore (with Mock Data fallback for offline/demo)
 - **Styling**: Modern CSS with CSS Variables and responsive design
 
 ## How to Run Locally
@@ -31,9 +31,9 @@ AwaazSetu acts as an intelligent bridge:
    ```bash
    pip install -r requirements.txt
    ```
-2. **Setup Database**:
-   - Ensure you have a PostgreSQL database available.
-   - Set the `DATABASE_URL` environment variable.
+2. **Setup Database (Optional)**:
+   - To use live Firebase data, set the `FIREBASE_SERVICE_ACCOUNT` secret with your service account JSON.
+   - If not set, the app will automatically use high-quality **Mock Data** for the demo.
 3. **Run the Application**:
    ```bash
    python app.py
