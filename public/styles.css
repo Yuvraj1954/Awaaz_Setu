@@ -122,6 +122,14 @@ body {
     color: var(--text-light);
 }
 
+#app-tagline {
+    font-size: 0.8125rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
 .language-pill {
     background: var(--primary-light);
     padding: 4px;
@@ -239,14 +247,15 @@ body {
 .interaction-card {
     background: var(--card);
     border-radius: 1.5rem;
-    padding: 2.5rem 1.5rem;
+    padding: 3rem 1.5rem;
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
-    min-height: 300px;
+    min-height: 400px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 /* Mic Styles */
@@ -254,27 +263,26 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
     cursor: pointer;
-    height: 160px;
-    justify-content: center;
+    margin-bottom: 2rem;
     position: relative;
 }
 
 .mic-circle {
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
     background: var(--primary);
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     position: relative;
     z-index: 2;
     transition: all 0.2s;
-    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
 }
 
 .mic-container:hover .mic-circle {
@@ -287,15 +295,46 @@ body {
     font-weight: 600;
     color: var(--primary);
     text-align: center;
-    height: 1.5em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 200px;
+    font-size: 1.125rem;
+    margin: 0;
     line-height: 1.4;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    padding: 0 0.5rem;
+}
+
+/* Guided Prompts */
+.guided-prompts {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.guided-prompts h3 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.prompt-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.prompt-item {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition: all 0.2s;
 }
 
 /* Text Input Section */
@@ -443,12 +482,28 @@ textarea:focus {
     padding: 1.5rem;
     border-radius: 1rem;
     border-left: 4px solid var(--primary);
+    margin-top: 1rem;
+}
+
+.response-text-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.response-speaker-icon {
+    color: var(--primary);
+    font-size: 1.25rem;
+    margin-top: 0.125rem;
+    flex-shrink: 0;
 }
 
 .response-body p {
     font-size: 1.125rem;
     line-height: 1.6;
     color: var(--text);
+    margin: 0;
+    flex: 1;
 }
 
 /* Loading Styles */
@@ -508,15 +563,26 @@ textarea:focus {
 
 @media (max-width: 480px) {
     .container { margin: 1rem auto; }
-    .interaction-card { padding: 1.5rem; }
-    .service-selector { gap: 0.5rem; }
-    .service-btn { 
-        padding: 1rem 0.5rem; 
+    .interaction-card { 
+        padding: 2rem 1rem;
+        min-height: 350px;
+    }
+    .mic-circle {
+        width: 120px;
         height: 120px;
+        font-size: 3rem;
     }
-    .service-btn span {
-        font-size: 0.875rem;
-        height: 2.6em;
+    .mic-container p {
+        font-size: 1rem;
     }
-    .logo-text p { display: none; }
+    .prompt-item {
+        font-size: 0.8125rem;
+        padding: 0.4rem 0.75rem;
+    }
+    .logo-text p { 
+        font-size: 0.6875rem;
+    }
+    #app-tagline {
+        font-size: 0.75rem;
+    }
 }

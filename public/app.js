@@ -1,5 +1,5 @@
 let currentLanguage = 'en';
-let currentService = 'government';
+let currentService = 'auto'; // Auto-detect service from intent
 let recognition;
 let isListening = false;
 let currentUtterance = null; // Track current speech for cancellation
@@ -8,11 +8,15 @@ const translations = {
     en: {
         title: 'AwaazSetu',
         subtitle: 'Your Voice Bridge to Services',
-        serviceLabel: 'Choose Service',
-        govt: 'Government Services',
-        health: 'Healthcare',
-        micLabel: 'Tap to Speak',
+        tagline: 'Speak in Hindi or English to get help with government and healthcare services.',
+        micLabel: 'Tap & Speak',
         listening: 'Listening...',
+        tryAsking: 'Try asking:',
+        prompt1: 'नमस्ते',
+        prompt2: 'Emergency number',
+        prompt3: 'I have fever',
+        prompt4: 'राशन कार्ड कैसे बनवाएं?',
+        prompt5: 'What is Ayushman Bharat?',
         inputLabel: 'How can we help you?',
         inputPlaceholder: 'Type your question here...',
         submit: 'Ask Question',
@@ -24,11 +28,15 @@ const translations = {
     hi: {
         title: 'आवाज़सेतु',
         subtitle: 'सेवाओं के लिए आपका आवाज़ पुल',
-        serviceLabel: 'सेवा चुनें',
-        govt: 'सरकारी सेवाएं',
-        health: 'स्वास्थ्य सेवा',
+        tagline: 'सरकारी और स्वास्थ्य सेवाओं में मदद के लिए हिंदी या अंग्रेजी में बोलें।',
         micLabel: 'बोलने के लिए टैप करें',
         listening: 'सुन रहा हूँ...',
+        tryAsking: 'पूछने का प्रयास करें:',
+        prompt1: 'नमस्ते',
+        prompt2: 'आपातकाल नंबर',
+        prompt3: 'मुझे बुखार है',
+        prompt4: 'राशन कार्ड कैसे बनवाएं?',
+        prompt5: 'आयुष्मान भारत क्या है?',
         inputLabel: 'हम आपकी कैसे मदद कर सकते हैं?',
         inputPlaceholder: 'अपना सवाल यहाँ लिखें...',
         submit: 'सवाल पूछें',
@@ -174,10 +182,20 @@ function updateLanguage() {
     const t = translations[currentLanguage];
     document.getElementById('app-title').textContent = t.title;
     document.getElementById('app-subtitle').textContent = t.subtitle;
-    document.getElementById('service-title-label').textContent = t.serviceLabel;
-    document.getElementById('govt-label').textContent = t.govt;
-    document.getElementById('health-label').textContent = t.health;
+    if (document.getElementById('app-tagline')) {
+        document.getElementById('app-tagline').textContent = t.tagline;
+    }
     document.getElementById('mic-label').textContent = t.micLabel;
+    if (document.getElementById('try-asking-label')) {
+        document.getElementById('try-asking-label').textContent = t.tryAsking;
+    }
+    if (document.getElementById('prompt-1')) {
+        document.getElementById('prompt-1').textContent = t.prompt1;
+        document.getElementById('prompt-2').textContent = t.prompt2;
+        document.getElementById('prompt-3').textContent = t.prompt3;
+        document.getElementById('prompt-4').textContent = t.prompt4;
+        document.getElementById('prompt-5').textContent = t.prompt5;
+    }
     document.getElementById('input-label').textContent = t.inputLabel;
     document.getElementById('user-input').placeholder = t.inputPlaceholder;
     document.getElementById('submit-text').textContent = t.submit;
@@ -201,13 +219,7 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
     });
 });
 
-document.querySelectorAll('.service-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('.service-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        currentService = this.dataset.service;
-    });
-});
+// Service selection removed - service is now auto-detected from intent
 
 document.getElementById('mic-button').addEventListener('click', function() {
     if (recognition) {

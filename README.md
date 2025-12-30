@@ -31,14 +31,52 @@ AwaazSetu acts as an intelligent bridge:
    ```bash
    pip install -r requirements.txt
    ```
-2. **Setup Database (Optional)**:
-   - To use live Firebase data, set the `FIREBASE_SERVICE_ACCOUNT` secret with your service account JSON.
-   - If not set, the app will automatically use high-quality **Mock Data** for the demo.
+
+2. **Setup Firebase Database (Recommended)**:
+   - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
+   - Enable Firestore Database
+   - Go to Project Settings → Service Accounts
+   - Generate a new private key (JSON file)
+   - Set the `FIREBASE_SERVICE_ACCOUNT` environment variable with the JSON content as a string:
+     ```bash
+     export FIREBASE_SERVICE_ACCOUNT='{"type":"service_account","project_id":"..."}'
+     ```
+   - **Seed the Database**: Run the seed script to populate Firestore with curated responses:
+     ```bash
+     python seed_firebase.py
+     ```
+   - If Firebase is not configured, the app will automatically use fallback responses (safe mode).
+
 3. **Run the Application**:
    ```bash
    python app.py
    ```
+   Or use the provided run script:
+   ```bash
+   ./run.sh
+   ```
+
 4. **Access the App**: Open your browser and navigate to `http://localhost:5000`.
+
+## Database Structure
+The Firestore collection `responses` contains documents with the following structure:
+```json
+{
+  "service": "general" | "government" | "healthcare",
+  "intent": "greeting" | "ayushman_bharat" | "fever" | etc.,
+  "language": "en" | "hi",
+  "keywords": ["hi", "hello", "namaste"],
+  "response": "Spoken-style response text"
+}
+```
+
+## Features
+- **Voice Input**: Uses Web Speech API for speech recognition
+- **Text-to-Speech**: Automatically speaks responses in selected language
+- **Intent Detection**: Keyword-based matching for reliable intent detection
+- **Multi-language**: Supports English and Hindi
+- **Greeting Support**: Detects and responds to greetings naturally
+- **Fallback System**: Always returns a response, even if database is unavailable
 
 ## Future Scope
 - **IVR Integration**: Enable users to call a phone number and get information over a standard voice call.
