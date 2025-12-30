@@ -1,5 +1,6 @@
 let currentLanguage = 'en';
 let currentService = 'government';
+let recognition;
 
 const translations = {
     en: {
@@ -9,6 +10,7 @@ const translations = {
         govt: 'Government Services',
         health: 'Healthcare',
         micLabel: 'Tap to Speak',
+        listening: 'Listening...',
         inputLabel: 'How can we help you?',
         inputPlaceholder: 'Type your question here...',
         submit: 'Ask Question',
@@ -24,6 +26,7 @@ const translations = {
         govt: 'सरकारी सेवाएं',
         health: 'स्वास्थ्य सेवा',
         micLabel: 'बोलने के लिए टैप करें',
+        listening: 'सुन रहा हूँ...',
         inputLabel: 'हम आपकी कैसे मदद कर सकते हैं?',
         inputPlaceholder: 'अपना सवाल यहाँ लिखें...',
         submit: 'सवाल पूछें',
@@ -33,6 +36,47 @@ const translations = {
         loading: 'जानकारी ढूंढ रहे हैं...'
     }
 };
+
+// Initialize Speech Recognition
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+        document.querySelector('.mic-circle').style.background = '#ef4444';
+        document.getElementById('mic-label').textContent = translations[currentLanguage].listening;
+    };
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('user-input').value = transcript;
+        showTextInput();
+    };
+
+    recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        resetMicUI();
+        showTextInput(); // Fallback to manual input
+    };
+
+    recognition.onend = () => {
+        resetMicUI();
+    };
+}
+
+function resetMicUI() {
+    document.querySelector('.mic-circle').style.background = 'var(--primary)';
+    document.getElementById('mic-label').textContent = translations[currentLanguage].micLabel;
+}
+
+function showTextInput() {
+    document.getElementById('mic-button').style.display = 'none';
+    document.getElementById('text-input-section').style.display = 'block';
+    document.getElementById('response-section').style.display = 'none';
+    document.getElementById('user-input').focus();
+}
 
 function updateLanguage() {
     const t = translations[currentLanguage];
@@ -50,6 +94,10 @@ function updateLanguage() {
     document.getElementById('new-query-text').textContent = t.newQuery;
     document.getElementById('loading-text').textContent = t.loading;
     document.documentElement.lang = currentLanguage;
+    
+    if (recognition) {
+        recognition.lang = currentLanguage === 'hi' ? 'hi-IN' : 'en-IN';
+    }
 }
 
 document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -70,10 +118,12 @@ document.querySelectorAll('.service-btn').forEach(btn => {
 });
 
 document.getElementById('mic-button').addEventListener('click', function() {
-    this.style.display = 'none';
-    document.getElementById('text-input-section').style.display = 'block';
-    document.getElementById('response-section').style.display = 'none';
-    document.getElementById('user-input').focus();
+    if (recognition) {
+        recognition.lang = currentLanguage === 'hi' ? 'hi-IN' : 'en-IN';
+        recognition.start();
+    } else {
+        showTextInput();
+    }
 });
 
 document.getElementById('cancel-btn').addEventListener('click', function() {
