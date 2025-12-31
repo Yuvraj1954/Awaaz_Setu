@@ -58,3 +58,34 @@ Follow these steps to get the project running on your local machine:
    ```
 
 3. Access the Platform Open your browser and navigate to: **http://localhost:5000**
+
+---
+
+## 🛣️ Roadmap & Strategic Vision
+
+AwaazSetu is designed to be the "Digital Entry Point" for every household in Bharat. Our development trajectory focuses on scalability and deeper integration:
+
+- [x] **Phase 1:** Zero-Hallucination Keyword Intent System (Bilingual).
+- [x] **Phase 2:** Flask-Firebase Real-time Knowledge Sync.
+- [x] **Phase 3:** Mobile-first Web UI for 2G/3G network stability.
+- [ ] **Phase 4:** **WhatsApp Integration** — Deploying the AwaazSetu engine as a Voice-Bot for 500M+ WhatsApp users.
+- [ ] **Phase 5:** **PWA Transformation** — Adding Service Workers to allow web-based offline caching and "Install to Home Screen" capability.
+- [ ] **Phase 6:** **Multi-Dialect Expansion** — Partnering with local NGOs to map Bhojpuri, Marathi, and Tamil medical terminology.
+
+---
+
+## 👤 Developed By
+
+**Yuvraj**
+
+*Full-Stack Web Architect | Social Impact Developer*
+
+| Resource | Link |
+| :--- | :--- |
+| **GitHub** | [💻 @Yuvraj1954](https://github.com/Yuvraj1954) |
+| **Project Demo** | [🚀 Live Link](https://awaaz-setu-2.onrender.com/) |
+| **Contact** | [✉️ Get in Touch](mailto:yuvraj.k863888@gmail.com) |
+
+> *"Bridging the gap between high-end technology and the last mile of humanity."*
+
+---
