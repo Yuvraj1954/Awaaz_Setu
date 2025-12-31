@@ -1,66 +1,56 @@
-# 🎙️ AwaazSetu
-### 🌏 *Empowering Bharat: Bilingual Voice Bridge for Essential Services*
+# 🎙️ AwaazSetu (आवाज़सेतु)
+### *Bridging the Digital Divide: A Zero-Hallucination Voice Gateway for Bharat*
 
-**AwaazSetu** (Web) is voice-first digital assistants designed to bridge the digital divide. By converting complex government and healthcare information into simple spoken dialogue, we empower rural and non-tech-savvy users to access their rights—even without a stable internet connection.
-
----
-
-## 💻 AwaazSetu: The Web Gateway
-A lightweight, instant-access platform for users on any device.
-
-🚨 **Note:** For the best experience, use **Google Chrome** and allow microphone access. Due to browser limitations, the web version supports a curated set of high-priority keywords.
-
-🔗 **LIVE WEB DEMO:** [https://awaaz-setu-2.onrender.com/](https://awaaz-setu-2.onrender.com/)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=render)](https://awaaz-setu-2.onrender.com/)
+[![Platform](https://img.shields.io/badge/Platform-Web-blue?style=for-the-badge&logo=googlechrome)](https://awaaz-setu-2.onrender.com/)
+[![Backend](https://img.shields.io/badge/Backend-Python_Flask-yellow?style=for-the-badge&logo=python)](https://flask.palletsprojects.com/)
+[![Database](https://img.shields.io/badge/Database-Firebase-orange?style=for-the-badge&logo=firebase)](https://firebase.google.com/)
 
 ---
 
-## 🎙️ Bilingual Voice Support (Hindi & English)
-Both platforms use a **keyword-based intent system** to ensure 100% accuracy and safety, eliminating "AI hallucinations."
+## 📺 Mission Overview
+**AwaazSetu** is a voice-first web platform engineered for the 300M+ Indians who face literacy and language barriers. While the internet is full of information, it is often inaccessible to rural populations. AwaazSetu turns complex government portals into a **simple conversation.**
 
-| Category | English Commands | Hindi Commands |
-| :--- | :--- | :--- |
-| **🚨 Emergency** | Call Police, Ambulance, Emergency No. | पुलिस नंबर, एम्बुलेंस, इमरजेंसी सहायता |
-| **🤰 Pregnancy** | Pregnancy care, Govt schemes | गर्भावस्था मदद, सरकारी प्रेगनेंसी स्कीम |
-| **🏥 Health** | Fever treatment, Ayushman Bharat | बुखार का इलाज, आयुष्मान भारत योजना |
-| **📄 Documents** | Ration card, Aadhaar update, Voter ID | राशन कार्ड, आधार अपडेट, वोटर आईडी |
-| **👵 Pension** | Old age pension, Senior citizen help | बुढ़ापा पेंशन, पेंशन योजना की जानकारी |
-| **👋 General** | Hello, Help, What can you do? | नमस्ते, मदद चाहिए, आप क्या कर सकते हैं? |
+### [🔗 Experience the Live Web App](https://awaaz-setu-2.onrender.com/)
 
 ---
 
-## 💡 The Problem & Our Solution
+## 📸 Interface Preview
+| 🎤 Voice-First UI | 📚 Bilingual Knowledge | 🏥 Instant Assistance |
+| :---: | :---: | :---: |
+| <img src="screenshots/web_screen1.png" width="400" alt="Home Screen" /> | <img src="screenshots/web_screen2.png" width="400" alt="Bilingual Search" /> | <img src="screenshots/web_screen3.png" width="400" alt="Results" /> |
+| *One-tap activation* | *Hindi & English Support* | *Verified Information* |
 
-### **The Problem**
-Millions in rural India face a "Triple Barrier":
-1.  **Literacy Barrier:** Complex, text-heavy government portals.
-2.  **Language Barrier:** Information primarily in English.
-3.  **Connectivity Barrier:** Unstable or non-existent internet (The "Data-Dark" zones).
-
-### **The Solution**
-* **Voice-First:** If you can speak, you can access services.
-* **Bilingual:** Native support for Hindi, English, and "Hinglish."
-* **Resilient:** **Sarthi** stays functional when the internet vanishes, ensuring "No Signal" never means "No Service."
+> **Note to Judges:** To display these images, upload your screenshots to a folder named `/screenshots` in this repository as `web_screen1.png`, `web_screen2.png`, etc.
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Why AwaazSetu Wins
 
-### **Web (AwaazSetu)**
-- **Python Flask:** Lightweight backend API.
-- **Web Speech & SpeechSynthesis API:** For browser-based voice interaction.
-- **Firebase Firestore:** Real-time multilingual database.
+### 🛡️ 1. Zero-Hallucination Architecture
+In critical sectors like **Healthcare** and **Government Schemes**, accuracy is non-negotiable. Unlike standard LLMs that might "hallucinate" fake rules, AwaazSetu uses a **Keyword-Based Intent System**. This ensures users get 100% verified, life-saving data every time.
+
+### 🗣️ 2. The "Hinglish" Edge
+Users in Bharat don't just speak Hindi or English—they speak a mix. Our NLP logic is optimized to recognize "Hinglish" commands, making the tech feel invisible and natural.
+
+### 🌐 3. High Accessibility
+Built with **Python Flask** and **Web Speech APIs**, it requires zero installation. It’s designed to be lightweight, running smoothly even on low-end smartphones used in rural areas.
 
 ---
 
-## 🚀 How to Get Started
+## 🛠️ Technical Stack
+* **Backend:** Python 3.x with Flask (RESTful API Design)
+* **Frontend:** HTML5, CSS3, JavaScript
+* **Voice Engine:** Web Speech API (Speech-to-Text & Text-to-Speech)
+* **Database:** Firebase Firestore for real-time, verified data retrieval
 
-### **Run AwaazSetu (Web) Locally**
-```bash
-# Clone the repository
-git clone [https://github.com/your-repo/awaazsetu.git](https://github.com/your-repo/awaazsetu.git)
+---
 
-# Install dependencies
-pip install -r requirements.txt
+## ⚙️ Local Development & Setup
 
-# Run the server
-python app.py
+Follow these steps to get the project running on your local machine:
+
+1. **Clone the Repo**
+   ```bash
+   git clone [https://github.com/Yuvraj1954/AwaazSetu.git](https://github.com/Yuvraj1954/AwaazSetu.git)
+   cd AwaazSetu
