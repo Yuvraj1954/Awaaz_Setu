@@ -51,7 +51,7 @@ Follow these steps to get the project running on your local machine:
    cd AwaazSetu
    ```
 
-2.**Python Setup**
+2. **Python Setup**
    ```bash
    pip install -r requirements.txt
    python app.py
