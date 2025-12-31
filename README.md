@@ -49,7 +49,9 @@ Follow these steps to get the project running on your local machine:
    ```bash
    git clone [https://github.com/Yuvraj1954/AwaazSetu.git](https://github.com/Yuvraj1954/AwaazSetu.git)
    cd AwaazSetu
-2. pip install -r requirements.txt
-3. python app.py
+2.**Python Setup**
+   ```bash
+   pip install -r requirements.txt
+   python app.py
 4. Access the Platform Open your browser and navigate to:
                         **http://localhost:5000**
