@@ -35,14 +35,14 @@ body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: var(
 .interaction-card { width: 100%; max-width: 600px; padding: 3rem; text-align: center; background: var(--glass); border: 1px solid var(--border); border-radius: 32px; backdrop-filter: blur(40px); }
 .inner-circle { width: 100px; height: 100px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin: 40px auto 20px auto; box-shadow: 0 0 40px rgba(79, 70, 229, 0.4); transition: 0.3s; }
 
-/* Controls Spacing Fixes */
-.stop-trigger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px 24px; border-radius: 100px; cursor: pointer; font-weight: 600; margin-bottom: 20px; }
-.response-panel { margin-top: 35px; border-top: 1px solid var(--border); padding-top: 25px; } /* Added spacing here */
+/* Controls Spacing Fixes - Lowering Response Panel */
+.stop-trigger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px 24px; border-radius: 100px; cursor: pointer; font-weight: 600; margin-bottom: 30px; }
+.response-panel { margin-top: 40px; border-top: 1px solid var(--border); padding-top: 30px; } 
 .resp-head { font-weight: 800; color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-#response-text { line-height: 1.6; font-size: 1.1rem; margin-bottom: 25px; }
+#response-text { line-height: 1.6; font-size: 1.1rem; margin-bottom: 30px; }
 
 /* ASK ANOTHER BUTTON CSS FIX */
-.btn-action { background: var(--primary); color: white; border: none; padding: 12px 28px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); }
+.btn-action { background: var(--primary); color: white; border: none; padding: 12px 28px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); display: inline-block; }
 .btn-action:hover { transform: translateY(-2px); background: #4338ca; }
 
 /* Language Switcher */
