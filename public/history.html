@@ -15,17 +15,21 @@
         .page-btn { background: var(--glass); border: 1px solid var(--border); color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: 600; }
         .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
         .page-btn:hover:not(:disabled) { background: var(--primary); }
-        .clear-btn { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 700; margin-top: 20px; }
+        
+        /* FIXED: Centered Sidebar Elements */
+        .sidebar-center-nav { display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; }
+        .clear-btn { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 700; transition: 0.3s; width: 85%; }
+        .clear-btn:hover { background: #ef4444; color: white; }
     </style>
 </head>
 <body>
     <div class="app-layout">
         <aside class="sidebar">
             <div class="side-logo-container"><i class="fas fa-satellite-dish"></i></div>
-            <nav class="side-nav">
-                <button class="nav-btn" onclick="window.location.href='index.html'"><i class="fas fa-home"></i> <span>Back Home</span></button>
-            </nav>
-            <button class="clear-btn" onclick="clearLogs()"><i class="fas fa-trash"></i> Clear Logs</button>
+            <div class="sidebar-center-nav">
+                <button class="nav-btn" style="width: 85%; justify-content: center;" onclick="window.location.href='index.html'"><i class="fas fa-home"></i> <span>Back Home</span></button>
+                <button class="clear-btn" onclick="clearLogs()"><i class="fas fa-trash"></i> Clear Logs</button>
+            </div>
         </aside>
         <main class="main-content">
             <header class="top-bar">
@@ -54,26 +58,13 @@
             const end = start + itemsPerPage;
             const items = fullHistory.slice(start, end);
             const tbody = document.getElementById('history-body');
-            
-            if (items.length === 0) {
-                tbody.innerHTML = "<tr><td colspan='3' style='text-align:center; opacity:0.5;'>No logs found</td></tr>";
-            } else {
-                tbody.innerHTML = items.map(i => `<tr><td>${i.time}</td><td>${i.text}</td><td>${i.lang.toUpperCase()}</td></tr>`).join('');
-            }
-
+            tbody.innerHTML = items.length === 0 ? "<tr><td colspan='3' style='text-align:center; opacity:0.5;'>No logs found</td></tr>" : items.map(i => `<tr><td>${i.time}</td><td>${i.text}</td><td>${i.lang.toUpperCase()}</td></tr>`).join('');
             document.getElementById('page-num').textContent = `Page ${page}`;
             document.getElementById('prev-btn').disabled = page === 1;
             document.getElementById('next-btn').disabled = end >= fullHistory.length;
         }
 
-        function clearLogs() {
-            if(confirm("Wipe all query history?")) {
-                localStorage.removeItem('awaazSetu_FullHistory');
-                fullHistory = [];
-                renderPage(1);
-            }
-        }
-
+        function clearLogs() { if(confirm("Wipe all query history?")) { localStorage.removeItem('awaazSetu_FullHistory'); fullHistory = []; renderPage(1); } }
         document.getElementById('prev-btn').onclick = () => { if(currentPage > 1) renderPage(--currentPage); };
         document.getElementById('next-btn').onclick = () => { if(currentPage * itemsPerPage < fullHistory.length) renderPage(++currentPage); };
         renderPage(1);
