@@ -11,6 +11,14 @@ const PROMPTS = {
     hi: ["नमस्ते", "मदद", "आयुष्मान भारत", "राशन कार्ड", "पीएम किसान", "अस्पताल", "पुलिस १००", "एम्बुलेंस १०८", "आवेदन", "फायदे", "किसान सूचना", "आपातकाल", "हेल्थ कार्ड", "संपर्क", "स्थिति"]
 };
 
+function speakResponse(text) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = currentLanguage === 'hi' ? 'hi-IN' : 'en-IN';
+    utterance.rate = 1.0;
+    window.speechSynthesis.speak(utterance);
+}
+
 function updateFullUI() {
     const t = UI_TEXT[currentLanguage];
     document.getElementById('nav-home').textContent = t.home;
@@ -62,7 +70,20 @@ async function submitQuery() {
     const data = await res.json();
     document.getElementById('response-text').textContent = data.response;
     document.getElementById('response-section').style.display = 'block';
+    speakResponse(data.response); // FIXED: Triggers voice
     refreshRecentQueries();
+}
+
+async function clearLogs() {
+    if (!confirm("Are you sure you want to clear all history?")) return;
+    try {
+        await fetch('/api/clear', { method: 'POST' });
+        if (window.location.href.includes('history.html')) {
+            window.location.reload();
+        } else {
+            refreshRecentQueries();
+        }
+    } catch (e) { console.error("Clear failed:", e); }
 }
 
 window.onload = () => {
@@ -88,4 +109,4 @@ if ('webkitSpeechRecognition' in window) {
     };
 }
 document.getElementById('mic-button').onclick = () => { recognition.start(); };
-document.getElementById('pause-btn').onclick = () => { recognition.stop(); };
+document.getElementById('pause-btn').onclick = () => { recognition.stop(); window.speechSynthesis.cancel(); };
