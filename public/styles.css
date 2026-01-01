@@ -1,100 +1,99 @@
-/* ============================================================
-   AWAAZSETU ELITE UI - DESKTOP & MOBILE HYBRID
-   ============================================================ */
-
 :root {
-    --primary: #2563eb;
-    --primary-hover: #1d4ed8;
+    --primary: #4f46e5;
     --bg-dark: #020617;
     --glass: rgba(255, 255, 255, 0.03);
     --border: rgba(255, 255, 255, 0.1);
     --text-main: #f8fafc;
 }
 
-/* 1. Global Reset & Desktop Layout */
-html, body {
-    height: 100%;
+body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
-    background-color: var(--bg-dark);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg-dark);
     color: var(--text-main);
-    overflow: hidden; /* Prevents double scrollbars */
+    height: 100vh;
+    overflow: hidden;
 }
 
-.app-wrapper {
+.app-layout {
     display: flex;
     height: 100vh;
-    width: 100%;
 }
 
-/* 2. Professional Sidebar (Desktop Only) */
+/* Sidebar - Wide on Desktop */
 .sidebar {
     width: 260px;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.3);
     border-right: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     padding: 2rem 1.25rem;
-    flex-shrink: 0;
+    backdrop-filter: blur(20px);
 }
 
-@media (max-width: 1024px) {
-    .sidebar { display: none; } /* Hide sidebar on mobile/tablets */
-    .app-wrapper { flex-direction: column; overflow-y: auto; }
-}
-
-/* 3. Main Content & Interaction Card */
-.container {
+.main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
+    padding: 2rem;
+}
+
+/* Centering the UI on Desktop */
+.interaction-zone {
+    flex: 1;
+    display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
-    overflow-y: auto;
 }
 
 .interaction-card {
+    width: 100%;
+    max-width: 600px;
     background: var(--glass);
-    backdrop-filter: blur(30px);
     border: 1px solid var(--border);
     border-radius: 32px;
     padding: 3rem;
-    width: 100%;
-    max-width: 800px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     text-align: center;
+    backdrop-filter: blur(40px);
 }
 
-/* 4. Mic & Buttons Fix */
-.mic-circle {
-    width: 140px;
-    height: 140px;
+/* Mic UI Styling */
+.mic-portal {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 2rem;
+    cursor: pointer;
+}
+
+.inner-circle {
+    width: 120px;
+    height: 120px;
     background: var(--primary);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3.5rem;
-    margin: 0 auto 1.5rem;
-    box-shadow: 0 0 40px rgba(37, 99, 235, 0.4);
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin: 40px auto;
+    box-shadow: 0 0 50px rgba(79, 70, 229, 0.5);
+    transition: 0.4s;
 }
 
-.pause-btn {
+/* Button Fixes (No longer unstyled) */
+.stop-trigger {
     background: rgba(239, 68, 68, 0.1);
     color: #ef4444;
-    border: 1.5px solid rgba(239, 68, 68, 0.2);
-    padding: 10px 24px;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 12px 28px;
     border-radius: 100px;
     font-weight: 700;
     cursor: pointer;
-    margin-top: 1.5rem;
     transition: 0.3s;
 }
 
-.pause-btn:hover {
+.stop-trigger:hover {
     background: #ef4444;
     color: white;
 }
@@ -116,11 +115,12 @@ html, body {
     border-color: var(--primary);
 }
 
-/* 5. Response UI */
-.response-body {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 2rem;
-    border-radius: 20px;
-    margin-top: 2rem;
-    border-left: 4px solid var(--primary);
+/* Mobile Adjustments */
+@media (max-width: 1024px) {
+    .sidebar { width: 80px; }
+    .interaction-card { padding: 2rem; max-width: 90%; }
+}
+
+@media (max-width: 768px) {
+    .sidebar { display: none; }
 }
