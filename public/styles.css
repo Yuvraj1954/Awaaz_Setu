@@ -40,8 +40,23 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-dark);
 #mic-label { font-weight: 600; font-size: 1.4rem; margin-top: 10px; margin-bottom: 5px; }
 .stop-trigger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px 24px; border-radius: 100px; cursor: pointer; font-weight: 600; margin-top: 15px; }
 
+/* Response Section Spacing */
 .response-panel { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; }
-.btn-action { background: var(--primary); color: white; border: none; padding: 12px 28px; border-radius: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); }
+.resp-head { font-weight: 800; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+#response-text { line-height: 1.6; font-size: 1.1rem; margin-bottom: 10px; }
+
+/* FIXED: Lowered Ask Another Button */
+.btn-action { 
+    background: var(--primary); 
+    color: white; 
+    border: none; 
+    padding: 12px 28px; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); 
+    margin-top: 15px; /* Added spacing to lower the button */
+}
 
 /* Language Switcher & Status Dot */
 .status-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 6px 14px; border-radius: 100px; font-size: 0.85rem; margin-top: 10px; }
