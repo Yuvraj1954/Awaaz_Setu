@@ -12,7 +12,40 @@ body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: var(
     width: 80px; background: rgba(0, 0, 0, 0.4); border-right: 1px solid var(--border); 
     display: flex; flex-direction: column; align-items: center; padding: 2rem 0; backdrop-filter: blur(20px); 
 }
+/* Styling for missing buttons and stop trigger */
+.stop-trigger {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: 0.3s;
+}
 
+.stop-trigger:hover {
+    background: #ef4444;
+    color: white;
+}
+
+.btn-action {
+    background: var(--primary);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    transition: 0.3s;
+}
+
+.btn-action:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
 @media (min-width: 1024px) {
     .sidebar { width: 240px; align-items: flex-start; padding-left: 1.5rem; }
 }
