@@ -4,77 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AwaazSetu | Activity Logs</title>
-    <style>
-        html, body { background-color: #020617 !important; margin: 0; padding: 0; }
-        .app-layout { opacity: 0; transition: opacity 0.3s ease; }
-    </style>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app-layout">
         <aside class="sidebar">
-            <div class="side-logo-container"><i class="fas fa-satellite-dish"></i></div>
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%;">
-                <button class="nav-btn" style="width: 85%; justify-content: center;" onclick="window.location.href='index.html'"><i class="fas fa-home"></i> <span>Back Home</span></button>
-                <button class="nav-btn" style="width: 85%; justify-content: center; color: #ef4444;" onclick="clearLogs()"><i class="fas fa-trash"></i> <span>Clear Logs</span></button>
-            </div>
+            <div class="side-logo-container">🌐</div>
+            <nav class="side-nav">
+                <button class="nav-btn" onclick="window.location.href='index.html'"><i class="fas fa-home"></i> Home</button>
+                <button class="nav-btn active"><i class="fas fa-history"></i> History</button>
+                <button class="nav-btn" style="color: #ef4444; margin-top: 20px;" onclick="clearLogs()"><i class="fas fa-trash"></i> Clear Logs</button>
+            </nav>
         </aside>
         <main class="main-content">
-            <header class="top-bar"><div class="brand-container"><h1 class="glow-text">History Logs</h1></div></header>
-            <div style="max-width: 900px; margin: 0 auto; width: 100%; padding: 20px;">
+            <header class="top-bar">
+                <div class="brand-container"><h1 class="glow-text">Activity Logs</h1></div>
+            </header>
+            <div style="max-width: 950px; margin: 0 auto; width: 100%; padding: 40px 20px;">
                 <table class="history-table">
-                    <thead><tr><th>Time</th><th>Query Snippet</th><th>Lang</th></tr></thead>
+                    <thead>
+                        <tr><th>Timestamp</th><th>Query</th><th>Lang</th></tr>
+                    </thead>
                     <tbody id="history-body"></tbody>
                 </table>
                 <div class="pagination">
                     <button id="prev-btn" class="page-btn">Previous</button>
-                    <span id="page-num" style="font-weight: 800; color: white; margin: 0 15px;">Page 1</span>
+                    <span id="page-num">Page 1</span>
                     <button id="next-btn" class="page-btn">Next</button>
                 </div>
             </div>
         </main>
     </div>
-    <script>
-        let currentPage = 1;
-        const itemsPerPage = 10;
-        let logsFromDB = [];
-
-        async function fetchLogs() {
-            try {
-                const res = await fetch('/api/history');
-                logsFromDB = await res.json();
-                renderPage(1);
-            } catch (e) { console.error("History fetch error", e); }
-        }
-
-        async function clearLogs() {
-            if(confirm("Permanently delete all logs?")) {
-                await fetch('/api/clear', { method: 'POST' });
-                fetchLogs();
-            }
-        }
-
-        function renderPage(page) {
-            const start = (page - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const items = logsFromDB.slice(start, end);
-            const tbody = document.getElementById('history-body');
-            
-            tbody.innerHTML = items.length === 0 ? 
-                "<tr><td colspan='3' style='text-align:center; color: white;'>No history found</td></tr>" : 
-                items.map(i => `<tr><td>${i.time}</td><td>${i.text}</td><td>${i.language.toUpperCase()}</td></tr>`).join('');
-            
-            document.getElementById('page-num').textContent = `Page ${page}`;
-            document.getElementById('prev-btn').disabled = page === 1;
-            document.getElementById('next-btn').disabled = end >= logsFromDB.length;
-        }
-
-        document.getElementById('prev-btn').onclick = () => { if(currentPage > 1) renderPage(--currentPage); };
-        document.getElementById('next-btn').onclick = () => { if(currentPage * itemsPerPage < logsFromDB.length) renderPage(++currentPage); };
-        
-        fetchLogs();
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
