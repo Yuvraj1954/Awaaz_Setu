@@ -7,19 +7,21 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# --- MONGODB CONNECTION ---
-# Using your exact URI and credentials
-MONGO_URI = "mongodb+srv://yuvrajk863888_db_user:aMnHBizntIPta5VX@cluster0.x4euc3w.mongodb.net/awaaz_setu_db?retryWrites=true&w=majority&appName=Cluster0"
+# --- SECURE MONGODB CONNECTION ---
+MONGO_URI = os.environ.get("MONGO_URI")
+
+# Fallback for local testing
+if not MONGO_URI:
+    MONGO_URI = "mongodb+srv://yuvrajk863888_db_user:aMnHBizntIPta5VX@cluster0.x4euc3w.mongodb.net/awaaz_setu_db?retryWrites=true&w=majority&appName=Cluster0"
 
 try:
     client = MongoClient(MONGO_URI)
     db = client['awaaz_setu_db']
     logs_collection = db['query_logs']
-    # Trigger a connection test
     client.admin.command('ping')
-    print("✅ Success: Connected to MongoDB Atlas!")
+    print("✅ Connected to MongoDB Atlas")
 except Exception as e:
-    print(f"❌ Error: Could not connect to MongoDB. Details: {e}")
+    print(f"❌ MongoDB Connection Error: {e}")
 
 KNOWLEDGE = {
     "ayushman": {
@@ -57,7 +59,6 @@ def handle_query():
         intent = get_intent(user_text)
         response_text = KNOWLEDGE[intent][lang]
 
-        # Log to MongoDB
         log_entry = {
             "text": user_text,
             "response": response_text,
@@ -69,19 +70,15 @@ def handle_query():
 
         return jsonify({"response": response_text})
     except Exception as e:
-        return jsonify({"response": "Error saving to database", "details": str(e)}), 500
+        return jsonify({"response": "Error", "details": str(e)}), 500
 
 @app.route("/api/history", methods=["GET"])
 def get_history():
     try:
-        # Fetch last 50 logs, newest first
         history = list(logs_collection.find().sort("timestamp", -1).limit(50))
         for item in history:
             item["_id"] = str(item["_id"])
-            if "timestamp" in item:
-                item["time"] = item["timestamp"].strftime("%b %d, %H:%M")
-            else:
-                item["time"] = "N/A"
+            item["time"] = item["timestamp"].strftime("%b %d, %H:%M") if "timestamp" in item else "N/A"
         return jsonify(history)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -94,7 +91,6 @@ def clear_history():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Required for Vercel
 app = app
 
 if __name__ == "__main__":
