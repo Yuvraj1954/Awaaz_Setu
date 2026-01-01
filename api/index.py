@@ -8,6 +8,7 @@ import random
 app = Flask(__name__)
 CORS(app)
 
+# MongoDB Connection
 MONGO_URI = os.environ.get("MONGO_URI")
 if not MONGO_URI:
     MONGO_URI = "mongodb+srv://yuvrajk863888_db_user:aMnHBizntIPta5VX@cluster0.x4euc3w.mongodb.net/awaaz_setu_db?retryWrites=true&w=majority&appName=Cluster0"
@@ -19,17 +20,18 @@ try:
 except Exception as e:
     print(f"DB Error: {e}")
 
+# Knowledge Base
 KNOWLEDGE = {
     "greetings": {
-        "en": "Hello! I am AwaazSetu, your government assistant. I can help with information on health, ration, and emergency services. How can I assist you?",
+        "en": "Hello! I am AwaazSetu, your government assistant. I can help with health schemes, ration cards, and emergency services. How can I assist you?",
         "hi": "नमस्ते! मैं आवाज़सेतु हूँ। मैं स्वास्थ्य, राशन और आपातकालीन सेवाओं की जानकारी में आपकी मदद कर सकता हूँ।"
     },
     "help": {
-        "en": "I can assist with: 1. Ayushman Bharat details, 2. Ration Card application steps, 3. PM Kisan status, and 4. Emergency contacts.",
+        "en": "I can assist with: 1. Ayushman Bharat details, 2. Ration Card application, 3. PM Kisan status, and 4. Emergency contacts.",
         "hi": "मैं मदद कर सकता हूँ: 1. आयुष्मान भारत, 2. राशन कार्ड प्रक्रिया, 3. पीएम किसान स्थिति, और 4. आपातकालीन नंबर।"
     },
     "ayushman": {
-        "en": "Ayushman Bharat (PM-JAY) offers ₹5 Lakhs free health cover per year for families. Apply at any PMJAY hospital with your Aadhaar and Ration Card.",
+        "en": "Ayushman Bharat (PM-JAY) offers ₹5 Lakhs free health cover per family per year. Apply at any PMJAY hospital with your Aadhaar and Ration Card.",
         "hi": "आयुष्मान भारत योजना परिवारों के लिए प्रति वर्ष ₹5 लाख का मुफ्त स्वास्थ्य कवर देती है। अपने आधार और राशन कार्ड के साथ आवेदन करें।"
     },
     "ration": {
@@ -39,6 +41,10 @@ KNOWLEDGE = {
     "emergency": {
         "en": "Emergency numbers: Dial 112 (All-in-one), 100 (Police), 108 (Ambulance), or 101 (Fire). Help is available 24/7.",
         "hi": "आपातकालीन नंबर: 112 (सभी के लिए), 100 (पुलिस), 108 (एम्बुलेंस), या 101 (दमकल)।"
+    },
+    "kisan": {
+        "en": "PM-Kisan provides farmers ₹6,000 per year in 3 installments. Check your status on pmkisan.gov.in using your Aadhaar number.",
+        "hi": "पीएम-किसान किसानों को 3 किश्तों में प्रति वर्ष ₹6,000 प्रदान करता है। अपना आधार नंबर का उपयोग करके pmkisan.gov.in पर अपनी स्थिति जांचें।"
     }
 }
 
@@ -51,9 +57,10 @@ def get_intent(text):
     t = text.lower()
     if any(x in t for x in ["hi", "hello", "नमस्ते", "हेलो"]): return "greetings"
     if any(x in t for x in ["help", "मदद", "सहायता"]): return "help"
-    if any(x in t for x in ["ayushman", "आयुष्मान"]): return "ayushman"
+    if any(x in t for x in ["ayushman", "bharat", "आयुष्मान"]): return "ayushman"
     if any(x in t for x in ["ration", "राशन"]): return "ration"
-    if any(x in t for x in ["emergency", "police", "पुलिस", "आपातकाल"]): return "emergency"
+    if any(x in t for x in ["emergency", "police", "आपातकाल"]): return "emergency"
+    if any(x in t for x in ["kisan", "farmer", "किसान"]): return "kisan"
     return "default"
 
 @app.route("/api/query", methods=["POST"])
