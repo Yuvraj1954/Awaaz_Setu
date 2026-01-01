@@ -1,18 +1,24 @@
-/* Fix for the floating icon in the corner */
-.side-logo-container {
-    padding: 1rem 0 2rem 0; /* Adds breathing room at the top */
-    display: flex;
-    justify-content: center;
-    width: 100%;
+:root {
+    --primary: #4f46e5;
+    --bg-dark: #020617;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.1);
+    --text-main: #f8fafc;
 }
 
-.side-logo-container i {
-    font-size: 1.8rem;
-    color: var(--primary);
-    filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5));
+* { margin: 0; padding: 0; box-sizing: border-box; } /* Reset */
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Sidebar styling updated for consistency */
+.app-layout { display: flex; height: 100vh; }
+
+/* Sidebar Logic */
 .sidebar {
     width: 260px;
     background: rgba(0, 0, 0, 0.3);
@@ -21,10 +27,11 @@
     flex-direction: column;
     padding: 1.5rem;
     backdrop-filter: blur(20px);
-    z-index: 10;
 }
 
-/* Ensuring buttons stay inside sidebar */
+.side-logo-container { padding: 1rem 0 2rem 0; text-align: center; }
+.side-logo-container i { font-size: 2rem; color: var(--primary); }
+
 .nav-btn {
     width: 100%;
     display: flex;
@@ -37,21 +44,18 @@
     border-radius: 12px;
     color: #94a3b8;
     cursor: pointer;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: 0.3s;
 }
 
-.nav-btn:hover {
-    background: var(--glass-heavy);
-    color: white;
-}
+.nav-btn.active { background: rgba(255,255,255,0.1); color: #fff; border-color: var(--primary); }
 
-.nav-btn.active {
-    background: var(--glass-heavy);
-    color: white;
-    border-color: var(--primary);
-}
+/* Main Content centering */
+.main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
 
-/* Animation for the branding name */
+.top-bar { display: flex; justify-content: flex-end; padding: 1.5rem 3rem; position: relative; }
+
+.brand-container { position: absolute; left: 50%; transform: translateX(-50%); text-align: center; }
+
 .glow-text {
     font-size: 2.2rem;
     font-weight: 800;
@@ -59,10 +63,29 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.3));
-    animation: pulseTitle 3s ease-in-out infinite;
 }
 
-@keyframes pulseTitle {
-    0%, 100% { filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.3)); }
-    50% { filter: drop-shadow(0 0 18px rgba(168, 85, 247, 0.6)); }
+.interaction-zone { flex: 1; display: flex; align-items: center; justify-content: center; }
+
+.interaction-card {
+    width: 100%; max-width: 600px; padding: 3rem; text-align: center;
+    background: var(--glass); border: 1px solid var(--border); border-radius: 32px; backdrop-filter: blur(40px);
 }
+
+.inner-circle {
+    width: 100px; height: 100px; background: var(--primary); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 3rem;
+    margin: 40px auto; box-shadow: 0 0 40px rgba(79, 70, 229, 0.4);
+}
+
+.stop-trigger {
+    background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 10px 24px; border-radius: 100px; cursor: pointer; margin-top: 1rem;
+}
+
+.lang-btn {
+    background: var(--glass); border: 1px solid var(--border); color: #94a3b8;
+    padding: 8px 18px; border-radius: 10px; cursor: pointer; margin-left: 8px;
+}
+
+.lang-btn.active { background: var(--primary); color: white; }
