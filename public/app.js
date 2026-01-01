@@ -2,8 +2,8 @@ let currentLanguage = 'en';
 let recognition;
 
 const UI_TEXT = {
-    en: { home: "Home", history: "History", recent: "RECENT QUERIES", status: "Bridge Active", tap: "Tap to Speak", stop: "Stop Listening", try: "TRY ASKING" },
-    hi: { home: "मुख्य", history: "इतिहास", recent: "हाल के प्रश्न", status: "ब्रिज सक्रिय है", tap: "बोलने के लिए टैप करें", stop: "सुनना बंद करें", try: "पूछ कर देखें" }
+    en: { home: "Home", history: "History", recent: "RECENT QUERIES", status: "Bridge Active", tap: "Tap to Speak", stop: "Stop Listening", try: "TRY ASKING", listening: "Listening..." },
+    hi: { home: "मुख्य", history: "इतिहास", recent: "हाल के प्रश्न", status: "ब्रिज सक्रिय है", tap: "बोलने के लिए टैप करें", stop: "सुनना बंद करें", try: "पूछ कर देखें", listening: "सुन रहा हूँ..." }
 };
 
 const PROMPTS = {
@@ -11,6 +11,7 @@ const PROMPTS = {
     hi: ["नमस्ते", "मदद", "आयुष्मान भारत", "राशन कार्ड", "पीएम किसान", "अस्पताल", "पुलिस १००", "एम्बुलेंस १०८", "आवेदन", "फायदे", "किसान सूचना", "आपातकाल", "हेल्थ कार्ड", "संपर्क", "स्थिति"]
 };
 
+// 1. Text-to-Speech Fix
 function speakResponse(text) {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
@@ -19,6 +20,7 @@ function speakResponse(text) {
     window.speechSynthesis.speak(utterance);
 }
 
+// 2. Full UI Translation
 function updateFullUI() {
     const t = UI_TEXT[currentLanguage];
     document.getElementById('nav-home').textContent = t.home;
@@ -31,6 +33,21 @@ function updateFullUI() {
     renderGrid();
 }
 
+// 3. Static 5x3 Grid Rendering
+function renderGrid() {
+    const grid = document.getElementById('command-grid');
+    if (!grid) return;
+    grid.innerHTML = "";
+    PROMPTS[currentLanguage].forEach(text => {
+        const chip = document.createElement('div');
+        chip.className = "suggest-chip";
+        chip.textContent = text;
+        chip.onclick = () => { document.getElementById('user-input').value = text; submitQuery(); };
+        grid.appendChild(chip);
+    });
+}
+
+// 4. Sidebar History (Last 5)
 async function refreshRecentQueries() {
     try {
         const res = await fetch('/api/history');
@@ -44,19 +61,7 @@ async function refreshRecentQueries() {
             div.onclick = () => { document.getElementById('user-input').value = item.text; submitQuery(); };
             container.appendChild(div);
         });
-    } catch (e) { console.error(e); }
-}
-
-function renderGrid() {
-    const grid = document.getElementById('command-grid');
-    grid.innerHTML = "";
-    PROMPTS[currentLanguage].forEach(text => {
-        const chip = document.createElement('div');
-        chip.className = "suggest-chip";
-        chip.textContent = text;
-        chip.onclick = () => { document.getElementById('user-input').value = text; submitQuery(); };
-        grid.appendChild(chip);
-    });
+    } catch (e) { console.error("History Sidebar Error:", e); }
 }
 
 async function submitQuery() {
@@ -70,20 +75,28 @@ async function submitQuery() {
     const data = await res.json();
     document.getElementById('response-text').textContent = data.response;
     document.getElementById('response-section').style.display = 'block';
-    speakResponse(data.response); // FIXED: Triggers voice
+    speakResponse(data.response);
     refreshRecentQueries();
 }
 
-async function clearLogs() {
-    if (!confirm("Are you sure you want to clear all history?")) return;
-    try {
-        await fetch('/api/clear', { method: 'POST' });
-        if (window.location.href.includes('history.html')) {
-            window.location.reload();
-        } else {
-            refreshRecentQueries();
-        }
-    } catch (e) { console.error("Clear failed:", e); }
+// 5. Speech Recognition & Animation
+if ('webkitSpeechRecognition' in window) {
+    recognition = new webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => { 
+        document.getElementById('mic-container').classList.add('pulse-active'); 
+        document.getElementById('mic-label').textContent = UI_TEXT[currentLanguage].listening;
+    };
+    recognition.onresult = (e) => { 
+        document.getElementById('user-input').value = e.results[0][0].transcript; 
+    };
+    recognition.onend = () => { 
+        document.getElementById('mic-container').classList.remove('pulse-active');
+        document.getElementById('mic-label').textContent = UI_TEXT[currentLanguage].tap;
+        if (document.getElementById('user-input').value) submitQuery(); 
+    };
 }
 
 window.onload = () => {
@@ -99,14 +112,9 @@ window.onload = () => {
     });
 };
 
-if ('webkitSpeechRecognition' in window) {
-    recognition = new webkitSpeechRecognition();
-    recognition.onstart = () => { document.getElementById('mic-container').classList.add('pulse-active'); };
-    recognition.onresult = (e) => { document.getElementById('user-input').value = e.results[0][0].transcript; };
-    recognition.onend = () => { 
-        document.getElementById('mic-container').classList.remove('pulse-active');
-        if (document.getElementById('user-input').value) submitQuery(); 
-    };
-}
 document.getElementById('mic-button').onclick = () => { recognition.start(); };
-document.getElementById('pause-btn').onclick = () => { recognition.stop(); window.speechSynthesis.cancel(); };
+document.getElementById('pause-btn').onclick = () => { 
+    recognition.stop(); 
+    window.speechSynthesis.cancel(); 
+    document.getElementById('mic-container').classList.remove('pulse-active');
+};
