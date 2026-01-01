@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AwaazSetu | Elite Voice Assistant</title>
+    <title>AwaazSetu | Elite Voice Bridge</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app-layout">
         <aside class="sidebar">
             <div class="side-logo-container"><i class="fas fa-satellite-dish"></i></div>
             <nav class="side-nav">
-                <button class="nav-btn active"><i class="fas fa-home"></i> <span id="nav-home">Home</span></button>
+                <button class="nav-btn active" onclick="window.location.reload()">
+                    <i class="fas fa-home"></i> <span id="nav-home">Home</span>
+                </button>
                 <button class="nav-btn" onclick="window.location.href='history.html'">
                     <i class="fas fa-history"></i> <span id="nav-hist">History</span>
                 </button>
@@ -25,7 +28,10 @@
             <header class="top-bar">
                 <div class="brand-container">
                     <h1 class="glow-text">AwaazSetu</h1>
-                    <div class="status-pill"><span class="pulse-dot"></span> <span id="status-text">Bridge Active</span></div>
+                    <div class="status-pill">
+                        <span class="pulse-dot"></span> 
+                        <span id="status-text">Bridge Active</span>
+                    </div>
                 </div>
                 <div class="language-pill">
                     <button class="lang-btn active" data-lang="en">EN</button>
@@ -36,7 +42,16 @@
             <div class="interaction-zone">
                 <div class="interaction-card">
                     <div class="mic-portal" id="mic-button">
-                        <div class="inner-circle" id="mic-container"><i class="fas fa-microphone"></i></div>
+                        <div class="inner-circle" id="mic-container">
+                            <i class="fas fa-microphone" id="mic-icon"></i>
+                            <div class="waveform" id="waveform">
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                                <div class="bar"></div>
+                            </div>
+                        </div>
                         <h2 id="mic-label">Tap to Speak</h2>
                     </div>
                     <button id="pause-btn" class="stop-trigger">Stop Listening</button>
@@ -45,8 +60,8 @@
                     </div>
                 </div>
 
-                <div class="suggestion-section" style="width: 100%; max-width: 700px; margin-top: 40px; text-align: center;">
-                    <p id="grid-label" style="font-size:0.75rem; color:var(--primary); font-weight:800; letter-spacing:2px;">TRY ASKING</p>
+                <div class="suggestion-section">
+                    <p id="grid-label">TRY ASKING</p>
                     <div id="command-grid" class="command-grid-layout"></div>
                 </div>
             </div>
