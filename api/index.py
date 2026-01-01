@@ -70,7 +70,6 @@ def handle_query():
 @app.route("/api/history", methods=["GET"])
 def get_history():
     try:
-        # Returns last 5 for Sidebar
         history = list(logs_collection.find().sort("timestamp", -1).limit(5))
         for item in history:
             item["_id"] = str(item["_id"])
@@ -78,5 +77,13 @@ def get_history():
         return jsonify(history)
     except:
         return jsonify([])
+
+@app.route("/api/clear", methods=["POST"])
+def clear_history():
+    try:
+        logs_collection.delete_many({})
+        return jsonify({"status": "success"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 app = app
