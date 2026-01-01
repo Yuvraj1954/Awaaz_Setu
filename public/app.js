@@ -21,7 +21,6 @@ function setUiState(listening) {
     }
 }
 
-// Fetch history from MongoDB
 async function refreshSidebar() {
     try {
         const res = await fetch('/api/history');
@@ -36,14 +35,15 @@ function updateSidebarUI(items) {
     container.innerHTML = ""; 
     items.forEach(item => {
         const div = document.createElement('div'); 
-        div.style = "padding: 10px; font-size: 0.8rem; margin-top: 8px; cursor: pointer; color: #94a3b8; border-radius: 10px; background: rgba(255,255,255,0.05); transition: 0.2s; width: 90%; text-align: center;";
-        div.textContent = item.text.length > 20 ? item.text.substring(0, 20) + "..." : item.text;
+        // INCREASED FONT SIZE HERE to 1rem
+        div.style = "padding: 12px; font-size: 1rem; margin-top: 10px; cursor: pointer; color: #f8fafc; border-radius: 12px; background: rgba(255,255,255,0.08); transition: 0.2s; width: 90%; text-align: center; font-weight: 500; border: 1px solid rgba(255,255,255,0.1);";
+        div.textContent = item.text.length > 25 ? item.text.substring(0, 25) + "..." : item.text;
         div.onclick = () => { document.getElementById('user-input').value = item.text; submitQuery(); };
         container.appendChild(div);
     });
 }
 
-// --- NATURAL VOICE ENGINE ---
+// --- ADVANCED VOICE ENGINE ---
 function speakResponse(text, lang) {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
@@ -51,21 +51,25 @@ function speakResponse(text, lang) {
     
     if (lang === 'hi') {
         utterance.lang = 'hi-IN';
-        // Priority: Google Hindi -> Any Hindi voice
         utterance.voice = voices.find(v => v.lang === 'hi-IN' && v.name.includes('Google')) || 
                          voices.find(v => v.lang === 'hi-IN');
-        utterance.rate = 1.0;  // Set to 1.0 as requested
-        utterance.pitch = 1.0; 
+        utterance.rate = 1.0; 
     } else {
+        // IMPROVED ENGLISH LOGIC
         utterance.lang = 'en-IN';
-        // Priority: Google English India (Natural) -> Microsoft Heera/Ravi -> Any en-IN
-        // This prevents the "Foreigner" accent by strictly looking for Indian English voices
-        utterance.voice = voices.find(v => v.lang === 'en-IN' && v.name.includes('Google')) || 
-                         voices.find(v => v.name.includes('India')) ||
-                         voices.find(v => v.lang === 'en-IN') ||
-                         voices.find(v => v.lang === 'en-GB'); // Fallback to British if Indian is missing
+        // Priority: Neural Indian English -> Google Indian English -> Standard Indian English
+        const indianVoice = voices.find(v => v.name.includes('Neural') && v.lang === 'en-IN') || 
+                           voices.find(v => v.lang === 'en-IN' && v.name.includes('Google')) ||
+                           voices.find(v => v.lang === 'en-IN');
         
-        utterance.rate = 0.9;  // Slightly slower English for a friendly, helpful tone
+        if (indianVoice) {
+            utterance.voice = indianVoice;
+            utterance.rate = 0.9; // Slightly slower makes Indian accents sound clearer
+        } else {
+            // Fallback to British (usually sounds more natural in India than US accents)
+            utterance.voice = voices.find(v => v.lang === 'en-GB');
+            utterance.rate = 0.85;
+        }
         utterance.pitch = 1.0; 
     }
 
@@ -74,7 +78,6 @@ function speakResponse(text, lang) {
 
 window.onload = () => { 
     refreshSidebar(); 
-    // Force voice loading for Chrome/Safari
     if (window.speechSynthesis.onvoiceschanged !== undefined) {
         window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
     }
@@ -117,7 +120,6 @@ async function submitQuery() {
         setTimeout(() => { responseSection.scrollTop = responseSection.scrollHeight; }, 100);
 
         speakResponse(data.response, currentLanguage);
-
         refreshSidebar();
     } catch (e) { 
         console.error(e); 
