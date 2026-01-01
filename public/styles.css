@@ -53,3 +53,5 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-dark);
 .lang-btn.active { background: var(--primary); color: white; }
 .btn-action { background: var(--primary); color: white; border: none; padding: 12px 28px; border-radius: 12px; cursor: pointer; margin-top: 15px; font-weight: 700; }
 .stop-trigger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px 24px; border-radius: 100px; cursor: pointer; font-weight: 600; margin-top: 15px; }
+/* Add this to the very bottom of your styles.css */
+.app-layout { visibility: visible !important; }
