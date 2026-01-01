@@ -1,9 +1,9 @@
 let currentLanguage = 'en';
 let recognition;
 
-// --- PAGINATION STATE ---
+// --- PAGINATION STATE FOR HISTORY PAGE ---
 let currentPage = 1;
-const itemsPerPage = 8;
+const itemsPerPage = 8; // Number of logs per page
 
 const UI_TEXT = {
     en: { 
@@ -23,16 +23,16 @@ const PROMPTS = {
     hi: ["नमस्ते", "मदद", "आयुष्मान भारत", "राशन कार्ड", "पीएम किसान", "अस्पताल", "पुलिस १००", "एम्बुलेंस १०८", "आवेदन", "फायदे", "किसान सूचना", "आपातकाल", "हेल्थ कार्ड", "संपर्क", "स्थिति"]
 };
 
-// --- VOICE SYNTHESIS ---
+// --- VOICE SYNTHESIS (TTS) ---
 function speakResponse(text) {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = currentLanguage === 'hi' ? 'hi-IN' : 'en-IN';
+    utterance.lang = currentLanguage === 'hi' ? 'hi-IN' : 'en-IN'; // Sets voice based on lang
     utterance.rate = 1.0;
     window.speechSynthesis.speak(utterance);
 }
 
-// --- UI UPDATES ---
+// --- FULL UI TRANSLATION ---
 function updateFullUI() {
     const t = UI_TEXT[currentLanguage];
     if (document.getElementById('nav-home')) document.getElementById('nav-home').textContent = t.home;
@@ -42,9 +42,10 @@ function updateFullUI() {
     if (document.getElementById('mic-label')) document.getElementById('mic-label').textContent = t.tap;
     if (document.getElementById('pause-btn')) document.getElementById('pause-btn').textContent = t.stop;
     if (document.getElementById('grid-label')) document.getElementById('grid-label').textContent = t.try;
-    renderGrid();
+    renderGrid(); // Refresh grid prompts on lang change
 }
 
+// --- RENDER 5X3 COMMAND GRID ---
 function renderGrid() {
     const grid = document.getElementById('command-grid');
     if (!grid) return;
@@ -53,12 +54,15 @@ function renderGrid() {
         const chip = document.createElement('div');
         chip.className = "suggest-chip";
         chip.textContent = text;
-        chip.onclick = () => { document.getElementById('user-input').value = text; submitQuery(); };
+        chip.onclick = () => { 
+            document.getElementById('user-input').value = text; 
+            submitQuery(); 
+        };
         grid.appendChild(chip);
     });
 }
 
-// --- SIDEBAR RECENT QUERIES (LIMIT 5) ---
+// --- REFRESH SIDEBAR RECENT QUERIES (LIMIT 5) ---
 async function refreshRecentQueries() {
     try {
         const res = await fetch('/api/history');
@@ -66,17 +70,20 @@ async function refreshRecentQueries() {
         const container = document.getElementById('history-list');
         if (!container) return;
         container.innerHTML = "";
-        data.slice(0, 5).forEach(item => {
+        data.slice(0, 5).forEach(item => { // Take only top 5 for sidebar
             const div = document.createElement('div');
             div.className = "history-item";
             div.textContent = item.text.length > 20 ? item.text.substring(0, 20) + "..." : item.text;
-            div.onclick = () => { document.getElementById('user-input').value = item.text; submitQuery(); };
+            div.onclick = () => { 
+                document.getElementById('user-input').value = item.text; 
+                submitQuery(); 
+            };
             container.appendChild(div);
         });
-    } catch (e) { console.error("Sidebar update failed", e); }
+    } catch (e) { console.error("Sidebar Refresh Error:", e); }
 }
 
-// --- HISTORY PAGE PAGINATION ---
+// --- FETCH PAGINATED LOGS FOR HISTORY PAGE ---
 async function fetchHistoryLogs() {
     const tbody = document.getElementById('history-body');
     if (!tbody) return;
@@ -103,45 +110,48 @@ async function fetchHistoryLogs() {
     } catch (e) { console.error("History fetch failed", e); }
 }
 
+// --- SUBMIT QUERY TO FLASK API ---
 async function submitQuery() {
     const text = document.getElementById('user-input').value;
     if (!text) return;
-    const res = await fetch('/api/query', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, language: currentLanguage })
-    });
-    const data = await res.json();
-    const respSection = document.getElementById('response-section');
-    if (respSection) {
-        document.getElementById('response-text').textContent = data.response;
-        respSection.style.display = 'block';
-    }
-    speakResponse(data.response);
-    refreshRecentQueries();
+    try {
+        const res = await fetch('/api/query', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text, language: currentLanguage })
+        });
+        const data = await res.json();
+        const respSection = document.getElementById('response-section');
+        if (respSection) {
+            document.getElementById('response-text').textContent = data.response;
+            respSection.style.display = 'block';
+        }
+        speakResponse(data.response); // FIXED: Triggers audio
+        refreshRecentQueries(); // Updates sidebar instantly
+    } catch (e) { console.error("Submission Error:", e); }
 }
 
 // --- INITIALIZATION ---
 window.onload = () => {
     updateFullUI();
     refreshRecentQueries();
-    if (document.getElementById('history-body')) fetchHistoryLogs();
+    if (document.getElementById('history-body')) fetchHistoryLogs(); // Only run on history page
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.onclick = () => {
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentLanguage = btn.dataset.lang;
-            updateFullUI();
+            updateFullUI(); // Translates entire page
         };
     });
 };
 
-// --- SPEECH RECOGNITION ---
+// --- SPEECH RECOGNITION & MIC ANIMATION ---
 if ('webkitSpeechRecognition' in window) {
     recognition = new webkitSpeechRecognition();
     recognition.onstart = () => { 
-        document.getElementById('mic-container').classList.add('pulse-active'); 
+        document.getElementById('mic-container').classList.add('pulse-active'); // Triggers waveform
         if (document.getElementById('mic-label')) document.getElementById('mic-label').textContent = UI_TEXT[currentLanguage].listening;
     };
     recognition.onresult = (e) => { 
@@ -158,9 +168,13 @@ const micBtn = document.getElementById('mic-button');
 if (micBtn) micBtn.onclick = () => { recognition.start(); };
 
 const pauseBtn = document.getElementById('pause-btn');
-if (pauseBtn) pauseBtn.onclick = () => { recognition.stop(); window.speechSynthesis.cancel(); };
+if (pauseBtn) pauseBtn.onclick = () => { 
+    recognition.stop(); 
+    window.speechSynthesis.cancel(); 
+    document.getElementById('mic-container').classList.remove('pulse-active');
+};
 
-// --- PAGINATION LISTENERS ---
+// --- PAGINATION CLICK LISTENERS ---
 if (document.getElementById('prev-btn')) {
     document.getElementById('prev-btn').onclick = () => { if(currentPage > 1) { currentPage--; fetchHistoryLogs(); } };
 }
@@ -168,6 +182,7 @@ if (document.getElementById('next-btn')) {
     document.getElementById('next-btn').onclick = () => { currentPage++; fetchHistoryLogs(); };
 }
 
+// --- CLEAR LOGS ---
 async function clearLogs() {
     if (!confirm("Clear all logs?")) return;
     await fetch('/api/clear', { method: 'POST' });
