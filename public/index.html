@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AwaazSetu | Elite Voice Bridge</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
@@ -11,19 +13,12 @@
 <body>
     <div class="app-layout">
         <aside class="sidebar">
-            <div class="side-logo-container">
-                <i class="fas fa-satellite-dish"></i>
-            </div>
+            <div class="side-logo-container"><i class="fas fa-satellite-dish"></i></div>
             <nav class="side-nav">
-                <button class="nav-btn active" id="home-btn">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </button>
-                <button class="nav-btn" id="history-btn">
-                    <i class="fas fa-history"></i>
-                    <span>History</span>
-                </button>
+                <button class="nav-btn active"><i class="fas fa-home"></i> <span>Home</span></button>
+                <button class="nav-btn"><i class="fas fa-history"></i> <span>History</span></button>
             </nav>
+            <div class="history-label">RECENT QUERIES</div>
             <div id="history-list" class="history-container"></div>
         </aside>
 
@@ -46,17 +41,13 @@
                 <div class="interaction-card">
                     <div class="mic-portal" id="mic-button">
                         <div class="outer-glow"></div>
-                        <div class="inner-circle">
-                            <i class="fas fa-microphone"></i>
-                        </div>
+                        <div class="inner-circle"><i class="fas fa-microphone"></i></div>
                         <h2 id="mic-label">Tap to Speak</h2>
                     </div>
                     <button id="pause-btn" class="stop-trigger">Stop Listening</button>
 
                     <div class="response-panel" id="response-section" style="display: none;">
-                        <div class="resp-head">
-                            <i class="fas fa-sparkles"></i> <span>Assistant</span>
-                        </div>
+                        <div class="resp-head"><i class="fas fa-sparkles"></i> <span>Assistant</span></div>
                         <p id="response-text"></p>
                         <button class="btn-action" id="new-query-btn">Ask Another</button>
                     </div>
