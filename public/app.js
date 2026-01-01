@@ -43,26 +43,30 @@ function updateSidebarUI(items) {
     });
 }
 
-// --- FRIENDLY VOICE ENGINE ---
+// --- NATURAL VOICE ENGINE ---
 function speakResponse(text, lang) {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    
-    // Get all available voices on the device
     const voices = window.speechSynthesis.getVoices();
     
     if (lang === 'hi') {
         utterance.lang = 'hi-IN';
-        // Look for Google Hindi or natural sounding local voices
-        utterance.voice = voices.find(v => v.lang === 'hi-IN' && v.name.includes('Google')) || voices.find(v => v.lang === 'hi-IN');
-        utterance.rate = 0.9;  // Slightly slower for clarity
-        utterance.pitch = 1.0; // Natural pitch
+        // Priority: Google Hindi -> Any Hindi voice
+        utterance.voice = voices.find(v => v.lang === 'hi-IN' && v.name.includes('Google')) || 
+                         voices.find(v => v.lang === 'hi-IN');
+        utterance.rate = 1.0;  // Set to 1.0 as requested
+        utterance.pitch = 1.0; 
     } else {
         utterance.lang = 'en-IN';
-        // Look for Google English (India) or Microsoft natural voices
-        utterance.voice = voices.find(v => v.lang === 'en-IN' && v.name.includes('Google')) || voices.find(v => v.lang === 'en-GB') || voices.find(v => v.lang.includes('en'));
-        utterance.rate = 0.95; // Just a tiny bit slower to avoid "robotic" speed
-        utterance.pitch = 1.1;  // Slightly higher pitch sounds more "friendly/helpful"
+        // Priority: Google English India (Natural) -> Microsoft Heera/Ravi -> Any en-IN
+        // This prevents the "Foreigner" accent by strictly looking for Indian English voices
+        utterance.voice = voices.find(v => v.lang === 'en-IN' && v.name.includes('Google')) || 
+                         voices.find(v => v.name.includes('India')) ||
+                         voices.find(v => v.lang === 'en-IN') ||
+                         voices.find(v => v.lang === 'en-GB'); // Fallback to British if Indian is missing
+        
+        utterance.rate = 0.9;  // Slightly slower English for a friendly, helpful tone
+        utterance.pitch = 1.0; 
     }
 
     window.speechSynthesis.speak(utterance);
@@ -70,8 +74,10 @@ function speakResponse(text, lang) {
 
 window.onload = () => { 
     refreshSidebar(); 
-    // Warm up voices (Some browsers need this to load the voice list)
-    window.speechSynthesis.getVoices();
+    // Force voice loading for Chrome/Safari
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    }
 };
 
 if ('webkitSpeechRecognition' in window) {
@@ -110,7 +116,6 @@ async function submitQuery() {
 
         setTimeout(() => { responseSection.scrollTop = responseSection.scrollHeight; }, 100);
 
-        // Trigger the improved friendly voice
         speakResponse(data.response, currentLanguage);
 
         refreshSidebar();
