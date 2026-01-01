@@ -11,7 +11,7 @@
 ## 📺 Mission Overview
 **AwaazSetu** is a voice-first web platform engineered for the 300M+ Indians who face literacy and language barriers. While the internet is full of information, it is often inaccessible to rural populations. AwaazSetu turns complex government portals into a **simple, spoken conversation.**
 
-### [🔗 Experience the Live Web App](https://awaaz-setu-2.onrender.com/)
+### [🔗 Experience the Live Web App](https://awaaz-setu.vercel.app/)
 
 ---
 
@@ -95,7 +95,7 @@ AwaazSetu is designed to be the "Digital Entry Point" for every household in Bha
 | Resource | Link |
 | :--- | :--- |
 | **GitHub** | [💻 @Yuvraj1954](https://github.com/Yuvraj1954) |
-| **Project Demo** | [🚀 Live Link](https://awaaz-setu-2.onrender.com/) |
+| **Project Demo** | [🚀 Live Link](https://awaaz-setu.vercel.app/) |
 | **Contact** | [✉️ Get in Touch](mailto:yuvraj.k863888@gmail.com) |
 
 > *"Bridging the gap between high-end technology and the last mile of humanity."*
