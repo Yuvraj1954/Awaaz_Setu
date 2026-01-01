@@ -43,10 +43,21 @@ async function submitQuery() {
     window.speechSynthesis.speak(u);
 }
 
-document.getElementById('mic-button').onclick = () => { 
+document.getElementById('mic-button').addEventListener('click', () => {
+    if (!recognition) return alert('Please use Chrome for voice input.');
+    
+    // Reset paused state and set correct language
+    paused = false;
     recognition.lang = currentLanguage === 'hi' ? 'hi-IN' : 'en-IN';
-    isListening ? recognition.stop() : recognition.start(); 
-};
+    
+    if (isListening) {
+        recognition.stop();
+    } else {
+        // Clear previous input before starting new listen
+        document.getElementById('user-input').value = '';
+        recognition.start();
+    }
+});
 
 document.querySelectorAll('.lang-btn').forEach(b => b.onclick = () => {
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
