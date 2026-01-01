@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AwaazSetu | Voice Assistant</title>
+    <title>AwaazSetu | Elite Voice Bridge</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -12,14 +12,19 @@
         <aside class="sidebar">
             <div class="side-logo-container"><i class="fas fa-satellite-dish"></i></div>
             <nav class="side-nav">
-                <button class="nav-btn active"><i class="fas fa-home"></i> Home</button>
-                <button class="nav-btn" onclick="window.location.href='history.html'"><i class="fas fa-history"></i> History</button>
+                <button class="nav-btn active" onclick="window.location.reload()"><i class="fas fa-home"></i> <span>Home</span></button>
+                <button class="nav-btn" onclick="window.location.href='history.html'"><i class="fas fa-history"></i> <span>History</span></button>
             </nav>
+            <div class="history-label">RECENT QUERIES</div>
+            <div id="history-list" class="history-container"></div>
         </aside>
 
         <main class="main-content">
             <header class="top-bar">
-                <h1 class="glow-text">AwaazSetu</h1>
+                <div class="brand-container">
+                    <h1 class="glow-text">AwaazSetu</h1>
+                    <div class="status-pill"><span class="pulse-dot"></span> <span id="status-text">Bridge Active</span></div>
+                </div>
                 <div class="language-pill">
                     <button class="lang-btn active" data-lang="en">EN</button>
                     <button class="lang-btn" data-lang="hi">हिंदी</button>
@@ -29,18 +34,22 @@
             <div class="interaction-zone">
                 <div class="interaction-card">
                     <div class="mic-portal" id="mic-button">
-                        <div class="inner-circle" id="mic-container"><i class="fas fa-microphone"></i></div>
+                        <div class="inner-circle" id="mic-container">
+                            <i class="fas fa-microphone" id="mic-icon"></i>
+                            <div class="waveform" id="waveform">
+                                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                            </div>
+                        </div>
                         <h2 id="mic-label">Tap to Speak</h2>
                     </div>
-                    <div id="response-section" style="display: none; margin-top: 20px;">
+                    <button id="pause-btn" class="stop-trigger">Stop Listening</button>
+                    <div class="response-panel" id="response-section" style="display: none;">
                         <p id="response-text" style="color: white;"></p>
+                        <button class="btn-action" onclick="location.reload()">Ask Another</button>
                     </div>
                 </div>
 
-                <div class="suggestion-section">
-                    <p id="grid-label">TRY ASKING</p>
-                    <div id="command-grid" class="command-grid-layout"></div>
-                </div>
+                <div class="command-grid-layout" id="command-grid"></div>
             </div>
         </main>
     </div>
